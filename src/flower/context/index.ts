@@ -1,4 +1,4 @@
 import {createContext} from "react";
-import {Store} from "../store";
+import {store} from "../store";
 
-export const StoreContext = createContext({data: new Store()});
+export const StoreContext = createContext(store);

@@ -1,7 +1,7 @@
 import React from "react";
-import {Circle} from "../../types";
+import {CircleProps} from "../../types";
 
-export abstract class CircleElement extends React.Component<Circle, any> {
+export abstract class CircleElement extends React.Component<CircleProps, any> {
 
     render() {
         const {x = 18, y = 18, r = 18} = this.props;

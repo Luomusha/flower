@@ -1,12 +1,13 @@
-import React from 'react';
-import {Data} from "./types";
-import {Store} from "./flower/store";
+import React, {useContext} from 'react';
 import {Flower} from "./flower";
+import {StoreContext} from "./flower/context";
+import {InitData} from "./types";
+import {useObserver} from "mobx-react";
 
 
 function App() {
-    const data: Data = {
-        nodes: [{
+    const data: InitData = {
+        shapes: [{
             x: 40,
             y: 40
         }, {
@@ -27,9 +28,9 @@ function App() {
             y: 100
         },],
     };
-    const model = new Store();
-    model.initData(data);
-    return <Flower actionProxy={model}/>
+    const {proxy} = useContext(StoreContext);
+    proxy.initData(data);
+    return useObserver(() => <Flower proxy={proxy}/>);
 }
 
 export default App;

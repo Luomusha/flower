@@ -1,7 +1,7 @@
 import React from "react";
-import {Shape} from "../../types";
+import {ShapeType} from "../../types";
 
-export abstract class ContainerElement extends React.Component<Shape, any> {
+export abstract class ContainerElement extends React.Component<ShapeType, any> {
     render() {
         const {children, x, y, id, focus = false} = this.props;
         return <g transform={`matrix(1 0 0 1 ${x} ${y})`}
