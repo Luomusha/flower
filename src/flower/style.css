@@ -1,0 +1,11 @@
+g:hover rect:last-child {
+    stroke: cadetblue;
+}
+
+g:active rect:last-child {
+    stroke: chocolate;
+}
+
+g:focus rect:last-child {
+    stroke: antiquewhite;
+}

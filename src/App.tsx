@@ -1,26 +1,35 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {Data} from "./types";
+import {Store} from "./flower/store";
+import {Flower} from "./flower";
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const data: Data = {
+        nodes: [{
+            x: 40,
+            y: 40
+        }, {
+            x: 120,
+            y: 60
+        }, {
+            x: 120,
+            y: 80
+        }, {
+            x: 110,
+            y: 80
+        }],
+        links: [{
+            x: 0,
+            y: 0
+        }, {
+            x: 100,
+            y: 100
+        },],
+    };
+    const model = new Store();
+    model.initData(data);
+    return <Flower actionProxy={model}/>
 }
 
 export default App;
