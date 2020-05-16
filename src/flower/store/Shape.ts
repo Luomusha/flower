@@ -1,8 +1,8 @@
 import {Shape as ShapeVM, ShapeType} from "../../types"
 import {observable} from "mobx";
-import {Element} from "./Element"
+import {FlowerElement} from "./FlowerElement"
 
-export class Shape extends Element implements ShapeVM {
+export class Shape extends FlowerElement implements ShapeVM {
 
     @observable x: number = 0;
     @observable y: number = 0;
@@ -14,12 +14,12 @@ export class Shape extends Element implements ShapeVM {
         this.y = shape.y;
     }
 
-    moveBy(dx: number, dy: number) {
+    moveBy = (dx: number, dy: number) => {
         this.x += dx;
         this.y += dy;
     };
 
-    moveTo(x: number, y: number) {
+    moveTo = (x: number, y: number) => {
         this.x = x;
         this.y = y;
     };
@@ -31,4 +31,5 @@ export class Shape extends Element implements ShapeVM {
     resizeTo(scale: number) {
         this.scale = scale;
     };
+
 }

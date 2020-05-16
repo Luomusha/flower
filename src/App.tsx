@@ -2,7 +2,6 @@ import React, {useContext} from 'react';
 import {Flower} from "./flower";
 import {StoreContext} from "./flower/context";
 import {InitData} from "./types";
-import {useObserver} from "mobx-react";
 
 
 function App() {
@@ -14,10 +13,10 @@ function App() {
             x: 120,
             y: 60
         }, {
-            x: 120,
+            x: 220,
             y: 80
         }, {
-            x: 110,
+            x: 310,
             y: 80
         }],
         links: [{
@@ -30,7 +29,7 @@ function App() {
     };
     const {proxy} = useContext(StoreContext);
     proxy.initData(data);
-    return useObserver(() => <Flower proxy={proxy}/>);
+    return <Flower proxy={proxy}/>
 }
 
 export default App;

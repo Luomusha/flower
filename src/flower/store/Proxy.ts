@@ -2,14 +2,12 @@ import {InitData, Proxy as ProxyType} from "../../types";
 import {action, computed, observable} from "mobx";
 import {Shape} from "./Shape";
 import {Link} from "./Link";
+import {FlowerElement} from "./FlowerElement";
 
 export class Proxy implements ProxyType {
     @observable shapes: Shape[] = [];
     @observable links: Link[] = [];
 
-    static activeElementId: string;
-    static focusElementId: string;
-    static hoverElementId: string;
 
     @action initData(data: InitData) {
         this.shapes = data.shapes.map(shape => new Shape(shape));
@@ -17,27 +15,36 @@ export class Proxy implements ProxyType {
     }
 
     @action setActiveElementId(id: string) {
-        Proxy.activeElementId = id;
+        FlowerElement.activeElementId = id;
     }
 
     @action setFocusElementId(id: string) {
-        Proxy.focusElementId = id;
+        console.log("setFocus", id)
+        FlowerElement.focusElementId = id;
+        console.log("Element.focusElementId", FlowerElement.focusElementId)
+
     }
 
     @action setHoverElementId(id: string) {
-        Proxy.hoverElementId = id;
+        FlowerElement.hoverElementId = id;
     }
 
     @computed get activeElement() {
-        return [...this.shapes, ...this.links].find(element => element.id === Proxy.activeElementId)
+        return this.shapes.find(element => element.id === FlowerElement.activeElementId)
     }
 
-    proxyMoveActiveElement(id: string) {
-        if(typeof this.activeElement)
-        this.activeElement
-    } ;
+    @action proxyMoveByActiveElement(dx: number, dy: number) {
+        if (this.activeElement) {
 
-    proxyResizeActiveElement(id: string) {
+            this.activeElement.moveBy(dx, dy);
+        }
+    }
+
+    @action proxyMoveToActiveElement(x: number, y: number) {
+
+    }
+
+    @action proxyResizeActiveElement(id: string) {
 
     }
 

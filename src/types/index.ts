@@ -1,11 +1,11 @@
 /******************************* Model ************************************/
 export type Position = { x: number; y: number; }
 export type Size = { width: number; height: number; }
-export type ElementType = { id?: string; }
-export type RectType = { radius?: number; } & ElementType & Position & Size;
-export type CircleType = { id?: string; r?: number; } & Position;
+export type RectType = { radius?: number; } & Position & Size;
+export type CircleType = { r?: number; } & Position
 export type ShapeType = RectType | CircleType;
 export type LinkType = { id?: string } & Position;
+export type ElementType = { id?: string; } & ShapeType | LinkType
 export type InitData = {
     shapes: ShapeType[],
     links: LinkType[]
@@ -27,14 +27,15 @@ export interface Scalable {
     resizeBy: (dScale: number) => void;
 }
 
-export interface Element {
+export interface FlowerElement extends Movable {
     readonly id: string;
+    focus: boolean;
 }
 
-export interface Shape extends Element, Movable, Scalable {
+export interface Shape extends FlowerElement, Scalable {
 }
 
-export interface Link extends Element {
+export interface Link extends FlowerElement {
     startElementId?: string;
     endElementId?: string;
     points: Position[];
@@ -47,14 +48,17 @@ export interface Proxy {
     setActiveElementId: (id: string) => void;
     setFocusElementId: (id: string) => void;
     setHoverElementId: (id: string) => void;
-    proxyMoveToActiveElement: (x:number,y:number) => void;
-    proxyMoveByActiveElement: (dx:number,dy:number) => void;
+    proxyMoveToActiveElement: (x: number, y: number) => void;
+    proxyMoveByActiveElement: (dx: number, dy: number) => void;
     proxyResizeActiveElement: (id: string) => void;
 }
 
 /******************************* View ************************************/
-export type RectProps = {focus:boolean} & RectType
-export type CircleProps = {focus:boolean} & CircleType
+export type ContainerProps = { focus: boolean } & ElementType & Position
+export type RectProps = RectType
+export type CircleProps = CircleType
+export type LinkProps = {}
+
 export type FlowerProps = { proxy: Proxy; }
 
 /******************************* View ************************************/
