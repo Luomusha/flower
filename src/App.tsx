@@ -24,11 +24,11 @@ function App() {
     }, {
         x: 0,
         y: 0,
-        name: "Circle"
+        name: "Line"
     }, {
         x: 100,
         y: 100,
-        name: "Circle"
+        name: "Line"
     }];
     const {proxy} = useContext(StoreContext);
     proxy.initData(data);

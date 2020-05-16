@@ -12,4 +12,4 @@ export const RectElement: FunctionComponent<RectProps> = ({x = 0, y = 0, width =
                  fillOpacity={0.95}
                  strokeWidth={2}
                  stroke={'black'}/>
-}
+};

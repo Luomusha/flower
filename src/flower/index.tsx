@@ -8,6 +8,7 @@ import {useObserver} from "mobx-react";
 import {CircleElement} from "./component/CircleElement";
 import {RectElement} from "./component/RectElement";
 import {ReactComponent} from "*.svg";
+import {LineElement} from "./component/LineElement";
 
 
 function renderDefs() {
@@ -23,6 +24,7 @@ type ElementMap<T> = {
 const elMp:ElementMap<FunctionComponent<any>> = {
     "Circle": CircleElement,
     "Rect": RectElement,
+    "Line": LineElement
 }
 
 function renderElement(elements: Element[]) {
