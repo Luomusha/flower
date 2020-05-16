@@ -1,8 +1,8 @@
-import {FlowerElement as ElementVM, ElementType} from "../../types";
+import {Element as ElementVM, ElementType} from "../../types";
 import {randomId} from "../util";
 import {computed, observable} from "mobx";
 
-export abstract class FlowerElement implements ElementVM {
+export abstract class Element implements ElementVM {
 
     readonly id: string;
 
@@ -20,8 +20,7 @@ export abstract class FlowerElement implements ElementVM {
     }
 
     @computed get focus() {
-        console.log("focus called:", FlowerElement.focusElementId, this.id);
-        return FlowerElement.focusElementId === this.id;
+        return Element.focusElementId === this.id;
     };
 
 

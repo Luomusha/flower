@@ -1,7 +1,7 @@
 import {Link as LinkVM, LinkType, Position} from "../../types"
-import {FlowerElement} from "./FlowerElement"
+import {Element} from "./Element"
 
-export class Link extends FlowerElement implements LinkVM {
+export class Link extends Element implements LinkVM {
     endElementId?: string;
     startElementId?: string;
     points: Position[] = [];

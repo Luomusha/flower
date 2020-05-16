@@ -2,7 +2,7 @@ import {InitData, Proxy as ProxyType} from "../../types";
 import {action, computed, observable} from "mobx";
 import {Shape} from "./Shape";
 import {Link} from "./Link";
-import {FlowerElement} from "./FlowerElement";
+import {Element} from "./Element";
 
 export class Proxy implements ProxyType {
     @observable shapes: Shape[] = [];
@@ -15,22 +15,19 @@ export class Proxy implements ProxyType {
     }
 
     @action setActiveElementId(id: string) {
-        FlowerElement.activeElementId = id;
+        Element.activeElementId = id;
     }
 
     @action setFocusElementId(id: string) {
-        console.log("setFocus", id)
-        FlowerElement.focusElementId = id;
-        console.log("Element.focusElementId", FlowerElement.focusElementId)
-
+        Element.focusElementId = id;
     }
 
     @action setHoverElementId(id: string) {
-        FlowerElement.hoverElementId = id;
+        Element.hoverElementId = id;
     }
 
     @computed get activeElement() {
-        return this.shapes.find(element => element.id === FlowerElement.activeElementId)
+        return this.shapes.find(element => element.id === Element.activeElementId)
     }
 
     @action proxyMoveByActiveElement(dx: number, dy: number) {

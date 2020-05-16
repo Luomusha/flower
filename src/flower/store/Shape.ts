@@ -1,8 +1,8 @@
 import {Shape as ShapeVM, ShapeType} from "../../types"
 import {observable} from "mobx";
-import {FlowerElement} from "./FlowerElement"
+import {Element} from "./Element"
 
-export class Shape extends FlowerElement implements ShapeVM {
+export class Shape extends Element implements ShapeVM {
 
     @observable x: number = 0;
     @observable y: number = 0;

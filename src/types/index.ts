@@ -27,15 +27,15 @@ export interface Scalable {
     resizeBy: (dScale: number) => void;
 }
 
-export interface FlowerElement extends Movable {
+export interface Element extends Movable {
     readonly id: string;
     focus: boolean;
 }
 
-export interface Shape extends FlowerElement, Scalable {
+export interface Shape extends Element, Scalable {
 }
 
-export interface Link extends FlowerElement {
+export interface Link extends Element {
     startElementId?: string;
     endElementId?: string;
     points: Position[];
