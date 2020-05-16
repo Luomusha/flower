@@ -2,13 +2,13 @@ import {Shape as ShapeVM, ShapeType} from "../../types"
 import {observable} from "mobx";
 import {Element} from "./Element"
 
-export class Shape extends Element implements ShapeVM {
+export abstract class Shape extends Element implements ShapeVM {
 
     @observable x: number = 0;
     @observable y: number = 0;
     @observable scale: number = 1;
 
-    constructor(shape: ShapeType) {
+    protected constructor(shape: ShapeType) {
         super(shape);
         this.x = shape.x;
         this.y = shape.y;

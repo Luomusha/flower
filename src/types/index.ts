@@ -1,15 +1,12 @@
 /******************************* Model ************************************/
+export type Clazz = { id?: string; name: string }
 export type Position = { x: number; y: number; }
-export type Size = { width: number; height: number; }
-export type RectType = { radius?: number; } & Position & Size;
-export type CircleType = { r?: number; } & Position
+export type RectType = Clazz & Position & { radius?: number; width: number; height: number };
+export type CircleType = Clazz & Position & { r?: number; }
 export type ShapeType = RectType | CircleType;
-export type LinkType = { id?: string } & Position;
-export type ElementType = { id?: string; } & ShapeType | LinkType
-export type InitData = {
-    shapes: ShapeType[],
-    links: LinkType[]
-}
+export type LineType = Clazz & Position ;
+export type ElementType = ShapeType | LineType;
+export type InitData = ElementType[];
 
 export type Vector = { vx: number; vy: number; }
 
@@ -29,21 +26,21 @@ export interface Scalable {
 
 export interface Element extends Movable {
     readonly id: string;
+    readonly name: string;
     focus: boolean;
 }
 
 export interface Shape extends Element, Scalable {
 }
 
-export interface Link extends Element {
+export interface Line extends Element {
     startElementId?: string;
     endElementId?: string;
     points: Position[];
 }
 
 export interface Proxy {
-    shapes: Shape[];
-    links: Link[];
+    elements: Element[];
     initData: (data: InitData) => void;
     setActiveElementId: (id: string) => void;
     setFocusElementId: (id: string) => void;
@@ -57,7 +54,7 @@ export interface Proxy {
 export type ContainerProps = { focus: boolean } & ElementType & Position
 export type RectProps = RectType
 export type CircleProps = CircleType
-export type LinkProps = {}
+export type LineProps = {}
 
 export type FlowerProps = { proxy: Proxy; }
 

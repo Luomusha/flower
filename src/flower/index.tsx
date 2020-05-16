@@ -1,9 +1,13 @@
-import React from "react"
-import {FlowerProps, Shape} from "../types";
+import React, {FunctionComponent, FunctionComponentElement} from "react"
+import {Element, FlowerProps} from "../types";
 import {ContainerElement} from "./component/ContainerElement";
 import {ArrowElement} from "./component/ArrowElement";
+
 import "./style.css"
 import {useObserver} from "mobx-react";
+import {CircleElement} from "./component/CircleElement";
+import {RectElement} from "./component/RectElement";
+import {ReactComponent} from "*.svg";
 
 
 function renderDefs() {
@@ -13,13 +17,23 @@ function renderDefs() {
 
 }
 
-function renderElement(shapes: Shape[]) {
-    return shapes.map((shape: Shape) => <ContainerElement id={shape.id}
-                                                          key={shape.id}
-                                                          x={shape.x}
-                                                          y={shape.y}
-                                                          focus={shape.focus}>
-            <text>{shape.focus}</text>
+type ElementMap<T> = {
+    [key:string]:T
+}
+const elMp:ElementMap<FunctionComponent<any>> = {
+    "Circle": CircleElement,
+    "Rect": RectElement,
+}
+
+function renderElement(elements: Element[]) {
+    return elements.map(element => <ContainerElement id={element.id}
+                                                     key={element.id}
+                                                     x={element.x}
+                                                     y={element.y}
+                                                     name={element.name}
+                                                     focus={element.focus}>
+            {React.createElement(elMp[element.name], element)}
+            {React.createElement("text", undefined, `${element.name}Element`)}
         </ContainerElement>
     )
 }
@@ -52,7 +66,7 @@ export function Flower(props: FlowerProps) {
         props.proxy.setActiveElementId("root");
     };
     return useObserver(() => <>
-        <div>{JSON.stringify(props.proxy.shapes)}</div>
+        <div>{JSON.stringify(props.proxy.elements)}</div>
         <svg width={'100%'}
              height={'100%'}
              onClick={handleClick}
@@ -61,7 +75,7 @@ export function Flower(props: FlowerProps) {
              onMouseUp={handleMouseUp}
         >
             {renderDefs()}
-            {renderElement(props.proxy.shapes)}
+            {renderElement(props.proxy.elements)}
         </svg>
     </>)
 }

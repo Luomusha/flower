@@ -8,7 +8,6 @@ export const ContainerElement: FunctionComponent<ContainerProps> = ({children, x
         >
 
             {children}
-            <text>{JSON.stringify(focus)}</text>
             <rect x={-6} y={-6}
                   width={112} height={96}
                   strokeWidth={1}

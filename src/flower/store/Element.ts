@@ -5,6 +5,7 @@ import {computed, observable} from "mobx";
 export abstract class Element implements ElementVM {
 
     readonly id: string;
+    abstract readonly name: string;
 
     abstract moveBy: (dx: number, dy: number) => void;
     abstract moveTo: (x: number, y: number) => void;
