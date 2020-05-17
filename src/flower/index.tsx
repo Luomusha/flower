@@ -33,6 +33,10 @@ function renderElement(elements: Element[]) {
     )
 }
 
+function renderOverlay(){
+    return
+}
+
 export function Flower(props: FlowerProps) {
 
     const [moving, setMoving] = useState(false);
@@ -77,6 +81,7 @@ export function Flower(props: FlowerProps) {
         >
             {renderDefs()}
             {renderElement(props.proxy.elements)}
+            {renderOverlay()}
         </svg>
     </>)
 }
