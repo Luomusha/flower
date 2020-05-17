@@ -1,16 +1,23 @@
 import {Element as ElementVM, ElementType} from "../../types";
 import {randomId} from "../util";
-import {computed, observable} from "mobx";
+import {action, computed, observable} from "mobx";
 
 export abstract class Element implements ElementVM {
 
     readonly id: string;
     abstract readonly name: string;
 
-    abstract x: number;
-    abstract y: number;
-    abstract moveBy: (dx: number, dy: number) => void;
-    abstract moveTo: (x: number, y: number) => void;
+    @observable x: number = 0;
+    @observable y: number = 0;
+    @action moveBy = (dx: number, dy: number) => {
+        this.x += dx;
+        this.y += dy;
+    };
+
+    @action moveTo = (x: number, y: number) => {
+        this.x = x;
+        this.y = y;
+    };
 
     abstract measureSpaceHeight(): number;
 
@@ -34,6 +41,8 @@ export abstract class Element implements ElementVM {
 
     protected constructor(e: ElementType) {
         this.id = e.id || randomId()
+        this.x = e.x;
+        this.y = e.y;
     }
 
 

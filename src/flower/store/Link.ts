@@ -1,17 +1,14 @@
-import {Line as LineVM, LineType, Point} from "../../types"
+import {Line as LineVM, LineType} from "../../types"
 import {Line} from "./Line";
-import {observable} from "mobx";
 
 export class Link extends Line implements LineVM {
     readonly name: string;
     endElementId?: string;
     startElementId?: string;
-    @observable points: Point[] = [];
 
     constructor(link: LineType) {
         super(link);
         this.name = link.name;
-        this.points = link.points.slice();
     }
 
     measureSpaceWidth(): number {
