@@ -22,13 +22,15 @@ function App() {
         y: 80,
         name: "Rect"
     }, {
-        x: 0,
-        y: 0,
-        name: "Line"
-    }, {
-        x: 100,
+        x: 300,
         y: 100,
-        name: "Line"
+        points: [{x: 10, y: 10}, {x: 90, y: 10}],
+        name: "Link"
+    }, {
+        x: 400,
+        y: 100,
+        points: [{x: 10, y: 20}, {x: 100, y: 20}],
+        name: "Link"
     }];
     const {proxy} = useContext(StoreContext);
     proxy.initData(data);

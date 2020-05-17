@@ -1,14 +1,11 @@
-import React, {FunctionComponent, FunctionComponentElement} from "react"
+import React, {useState} from "react"
 import {Element, FlowerProps} from "../types";
 import {ContainerElement} from "./component/ContainerElement";
 import {ArrowElement} from "./component/ArrowElement";
 
 import "./style.css"
 import {useObserver} from "mobx-react";
-import {CircleElement} from "./component/CircleElement";
-import {RectElement} from "./component/RectElement";
-import {ReactComponent} from "*.svg";
-import {LineElement} from "./component/LineElement";
+import {elementConfigMap, unregisterElementConfig} from "./config";
 
 
 function renderDefs() {
@@ -18,29 +15,27 @@ function renderDefs() {
 
 }
 
-type ElementMap<T> = {
-    [key:string]:T
-}
-const elMp:ElementMap<FunctionComponent<any>> = {
-    "Circle": CircleElement,
-    "Rect": RectElement,
-    "Line": LineElement
-}
 
 function renderElement(elements: Element[]) {
-    return elements.map(element => <ContainerElement id={element.id}
-                                                     key={element.id}
-                                                     x={element.x}
-                                                     y={element.y}
-                                                     name={element.name}
-                                                     focus={element.focus}>
-            {React.createElement(elMp[element.name], element)}
-            {React.createElement("text", undefined, `${element.name}Element`)}
-        </ContainerElement>
+    return elements.map(element => {
+            const config = elementConfigMap.get(element.name) || unregisterElementConfig;
+            return <ContainerElement id={element.id}
+                                     key={element.id}
+                                     positionX={element.x}
+                                     positionY={element.y}
+                                     width={element.maxX - element.minX}
+                                     height={element.maxY - element.minY}
+                                     name={element.name}
+                                     focus={element.focus}>
+                {React.createElement(config.element, element)}
+            </ContainerElement>
+        }
     )
 }
 
 export function Flower(props: FlowerProps) {
+
+    const [moving, setMoving] = useState(false);
 
     const handleClick = (e: React.MouseEvent<SVGSVGElement>) => {
         const element = e.target as SVGSVGElement;
@@ -54,21 +49,25 @@ export function Flower(props: FlowerProps) {
         const element = e.target as SVGSVGElement;
         const id = element.parentElement?.id;
         if (id) {
+            setMoving(true);
+            console.log(id)
             props.proxy.setActiveElementId(id);
         }
     };
     const handleMouseMove = (e: React.MouseEvent<SVGSVGElement>) => {
         const element = e.target as SVGSVGElement;
         const id = element.parentElement?.id;
-        if (id) {
+        if (id && moving) {
+            console.log(id);
             props.proxy.proxyMoveByActiveElement(e.movementX, e.movementY)
         }
     };
     const handleMouseUp = (e: React.MouseEvent<SVGSVGElement>) => {
+        setMoving(false);
         props.proxy.setActiveElementId("root");
     };
     return useObserver(() => <>
-        <div>{JSON.stringify(props.proxy.elements)}</div>
+        <div className={'debug'}>{JSON.stringify(props.proxy.elements)}</div>
         <svg width={'100%'}
              height={'100%'}
              onClick={handleClick}

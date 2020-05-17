@@ -9,3 +9,16 @@ g:active rect:last-child {
 g:focus rect:last-child {
     stroke: antiquewhite;
 }
+
+*{
+    user-select: none;
+}
+
+.debug {
+    position: absolute;
+    user-select: none;
+    max-width: 400px;
+    right: 0;
+    color: darkgreen;
+    word-break: break-all;
+}

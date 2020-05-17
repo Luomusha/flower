@@ -1,8 +1,9 @@
-import {CircleType, InitData, Proxy as ProxyType, RectType} from "../../types";
+import {InitData, LineType, Proxy as ProxyType} from "../../types";
 import {action, computed, observable} from "mobx";
 import {Element} from "./Element";
 import {Circle} from "./Circle";
 import {Rect} from "./Rect";
+import {Link} from "./Link";
 
 export class Proxy implements ProxyType {
     @observable elements: Element[] = [];
@@ -10,11 +11,11 @@ export class Proxy implements ProxyType {
     @action initData(data: InitData) {
         this.elements = data.map(d => {
             if (d.name === "Circle") {
-                return new Circle(d as CircleType)
+                return new Circle(d)
             } else if (d.name === "Rect") {
-                return new Rect(d as RectType)
+                return new Rect(d)
             } else {
-                return new Rect(d as RectType)
+                return new Link(d as LineType)
             }
         });
     }
