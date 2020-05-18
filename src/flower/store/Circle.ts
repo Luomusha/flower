@@ -4,8 +4,7 @@ import {ShapeType} from "../../types";
 
 export class Circle extends Shape {
     readonly name: string;
-    @observable x: number = 0;
-    @observable y: number = 0;
+
     @observable r: number = 18;
 
     constructor(c: ShapeType) {
