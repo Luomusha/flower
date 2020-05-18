@@ -6,3 +6,4 @@
 |---|---|---|---|
 |基本显示|x y id name|activeElementId|width height r|
 |连接关系||||
+|||||
