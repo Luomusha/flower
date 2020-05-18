@@ -21,7 +21,6 @@ export class Proxy implements ProxyType {
     }
 
     @action setActiveElementId(id: string) {
-        console.log("setActive", id)
         Element.activeElementId = id;
     }
 
