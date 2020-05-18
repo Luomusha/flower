@@ -69,12 +69,8 @@ export type ContainerProps = {
 }
 export type RectProps = { x: number; y: number; }
 export type CircleProps = { x: number; y: number; }
-
-
 export type LineProps = { points: Point[] }
-export type CodeProps = { code: string }
-
-
+export type CodeProps = { elements: Element[] }
 export type FlowerProps = { proxy: Proxy; }
 /******************************* ViewConfig ************************************/
 export type ElementConfigMap = Map<string, ElementConfig>

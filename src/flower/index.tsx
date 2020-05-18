@@ -79,7 +79,7 @@ export function Flower(props: FlowerProps) {
              onMouseMove={handleMouseMove}
              onMouseUp={handleMouseUp}
         >
-            <CodeElement code={JSON.stringify(props.proxy.elements)} />
+            <CodeElement elements={props.proxy.elements} />
             {renderDefs()}
             {renderElement(props.proxy.elements)}
             {renderOverlay()}

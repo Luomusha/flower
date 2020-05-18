@@ -1,12 +1,16 @@
 import React, {FunctionComponent} from "react";
 import {CodeProps} from "../../types";
 
-export const CodeElement: FunctionComponent<CodeProps> = ({code}) => {
+export const CodeElement: FunctionComponent<CodeProps> = ({elements}) => {
     return <g>
-        {code.split('},{').map((c: string, index: number) =>
-            <text x={0} y={20+ 20 * index} stroke={'darkgreen'}>
-                <tspan stroke={'yellow'}>{index}</tspan>
-                <tspan x={30}>{'\{'}{c}{'\'},'}</tspan>
+        {elements.map((e, index: number) =>
+            <text x={5} y={300 + 15 * index}
+                  stroke={'darkgreen'}
+                  fontFamily={'San'}
+                  fontSize={11} fontWeight={'lighter'}
+                  shapeRendering={'crispEdges'}>
+                <tspan stroke={'black'}>{index + 1}</tspan>
+                <tspan x={20}>{JSON.stringify(e)}</tspan>
             </text>
         )}
 
