@@ -6,6 +6,7 @@ import {ArrowElement} from "./component/ArrowElement";
 import "./style.css"
 import {useObserver} from "mobx-react";
 import {elementConfigMap, unregisterElementConfig} from "./config";
+import {CodeElement} from "./component/CodeElement";
 
 
 function renderDefs() {
@@ -71,7 +72,6 @@ export function Flower(props: FlowerProps) {
         props.proxy.setActiveElementId("root");
     };
     return useObserver(() => <>
-        <div className={'debug'}>{JSON.stringify(props.proxy.elements)}</div>
         <svg width={'100%'}
              height={'100%'}
              onClick={handleClick}
@@ -79,6 +79,7 @@ export function Flower(props: FlowerProps) {
              onMouseMove={handleMouseMove}
              onMouseUp={handleMouseUp}
         >
+            <CodeElement code={JSON.stringify(props.proxy.elements)} />
             {renderDefs()}
             {renderElement(props.proxy.elements)}
             {renderOverlay()}

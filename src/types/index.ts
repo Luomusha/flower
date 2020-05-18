@@ -67,26 +67,16 @@ export type ContainerProps = {
     focus?: boolean;
     margin?: number;
 }
-export type RectProps = {
-    x: number;
-    y: number;
-}
-export type CircleProps = {
-    x: number;
-    y: number;
-}
+export type RectProps = { x: number; y: number; }
+export type CircleProps = { x: number; y: number; }
 
-export type LineProps = {
-    points: Point[]
-}
+
+export type LineProps = { points: Point[] }
+export type CodeProps = { code: string }
+
 
 export type FlowerProps = { proxy: Proxy; }
-
-
 /******************************* ViewConfig ************************************/
 export type ElementConfigMap = Map<string, ElementConfig>
-export type ElementConfig = {
-    name: string;
-    element: FunctionComponent<any>;
-}
+export type ElementConfig = { name: string; element: FunctionComponent<any>; }
 
