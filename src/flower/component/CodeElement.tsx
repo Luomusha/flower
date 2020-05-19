@@ -1,9 +1,13 @@
 import React, {FunctionComponent} from "react";
-import {CodeProps} from "../../types";
+import {ShapeData} from "../store/Shape";
 
-export const CodeElement: FunctionComponent<CodeProps> = ({elements}) => {
+export type CodeProps = {
+    shape: ShapeData[]
+}
+
+export const CodeElement: FunctionComponent<CodeProps> = ({shape}) => {
     return <g>
-        {elements.map((e, index: number) =>
+        {shape.map((e, index: number) =>
             <text x={5} y={300 + 15 * index}
                   stroke={'darkgreen'}
                   fontFamily={'San'}

@@ -1,39 +1,47 @@
-import {InitData, LineType, Proxy as ProxyType} from "../../types";
 import {action, computed, observable} from "mobx";
-import {Element} from "./Element";
-import {Circle} from "./Circle";
-import {Rect} from "./Rect";
-import {Link} from "./Link";
+import {Shape} from "./Shape";
+import {Unregister} from "./Unregister";
+
+export type InitData = Data[]
+export type Data = {
+
+}
+
+export interface ProxyType {
+    shapes: Shape[];
+    initData: (data: InitData) => void;
+    setActiveElementId: (id: string) => void;
+    setFocusElementId: (id: string) => void;
+    setHoverElementId: (id: string) => void;
+    proxyMoveToActiveElement: (x: number, y: number) => void;
+    proxyMoveByActiveElement: (dx: number, dy: number) => void;
+    proxyResizeActiveElement: (id: string) => void;
+}
+
 
 export class Proxy implements ProxyType {
-    @observable elements: Element[] = [];
+    @observable shapes: Shape[] = [];
 
     @action initData(data: InitData) {
-        this.elements = data.map(d => {
-            if (d.name === "Circle") {
-                return new Circle(d)
-            } else if (d.name === "Rect") {
-                return new Rect(d)
-            } else {
-                return new Link(d as LineType)
-            }
+        this.shapes = data.map(d => {
+            return new Unregister()
         });
     }
 
     @action setActiveElementId(id: string) {
-        Element.activeElementId = id;
+        Shape.activeElementId = id;
     }
 
     @action setFocusElementId(id: string) {
-        Element.focusElementId = id;
+        Shape.focusElementId = id;
     }
 
     @action setHoverElementId(id: string) {
-        Element.hoverElementId = id;
+        Shape.hoverElementId = id;
     }
 
     @computed get activeElement() {
-        return this.elements.find(element => element.id === Element.activeElementId)
+        return this.shapes.find(shape => shape.id === Shape.activeElementId)
     }
 
     @action proxyMoveByActiveElement(dx: number, dy: number) {
@@ -49,6 +57,7 @@ export class Proxy implements ProxyType {
     @action proxyResizeActiveElement(id: string) {
 
     }
+
 
 
 }

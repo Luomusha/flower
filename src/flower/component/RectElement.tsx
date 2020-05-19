@@ -1,5 +1,9 @@
 import React, {FunctionComponent} from "react";
-import {RectProps} from "../../types";
+
+type RectProps = {
+    x: number;
+    y: number;
+}
 
 export const RectElement: FunctionComponent<RectProps> = ({x = 0, y = 0}) => {
     return <rect y={0}

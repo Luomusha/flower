@@ -1,12 +1,17 @@
 import React, {useState} from "react"
-import {Element, FlowerProps} from "../types";
 import {ContainerElement} from "./component/ContainerElement";
 import {ArrowElement} from "./component/ArrowElement";
 
 import "./style.css"
 import {useObserver} from "mobx-react";
-import {elementConfigMap, unregisterElementConfig} from "./config";
 import {CodeElement} from "./component/CodeElement";
+import {shapeConfigMap, unregisterShapeConfig} from "./config/config";
+import {Shape} from "./store/Shape";
+import {Proxy} from "./store/Proxy";
+
+type FlowerProps = {
+    proxy: Proxy
+}
 
 
 function renderDefs() {
@@ -17,9 +22,9 @@ function renderDefs() {
 }
 
 
-function renderElement(elements: Element[]) {
-    return elements.map(element => {
-            const config = elementConfigMap.get(element.name) || unregisterElementConfig;
+function renderElement(shapes: Shape[]) {
+    return shapes.map(element => {
+            const config = shapeConfigMap.get(element.name) || unregisterShapeConfig;
             return <ContainerElement id={element.id}
                                      key={element.id}
                                      positionX={element.x}
@@ -79,9 +84,9 @@ export function Flower(props: FlowerProps) {
              onMouseMove={handleMouseMove}
              onMouseUp={handleMouseUp}
         >
-            <CodeElement elements={props.proxy.elements} />
+            <CodeElement elements={props.proxy.shapes} />
             {renderDefs()}
-            {renderElement(props.proxy.elements)}
+            {renderElement(props.proxy.shapes)}
             {renderOverlay()}
         </svg>
     </>)

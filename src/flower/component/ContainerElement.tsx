@@ -1,7 +1,19 @@
 import React, {Children, FunctionComponent, ReactElement} from "react";
-import {ContainerProps} from "../../types";
-import {elementConfigMap, unregisterElementConfig} from "../config";
 import {useObserver} from "mobx-react";
+import {shapeConfigMap, unregisterShapeConfig} from "../config/config";
+
+
+
+export type ContainerProps = {
+    id: string;
+    name: string;
+    positionX: number;
+    positionY: number;
+    width?: number;
+    height?: number;
+    focus?: boolean;
+    margin?: number;
+}
 
 export const ContainerElement: FunctionComponent<ContainerProps> = ({
                                                                         children,
@@ -14,7 +26,7 @@ export const ContainerElement: FunctionComponent<ContainerProps> = ({
                                                                         focus,
                                                                         margin = 6,
                                                                     }) => {
-    let config = unregisterElementConfig;
+    let config = unregisterShapeConfig;
     Children.forEach(children, function (child) {
         if (['boolean', 'undefined', 'string', 'number'].includes(typeof child) || child === null) {
             return child
@@ -22,7 +34,7 @@ export const ContainerElement: FunctionComponent<ContainerProps> = ({
         if (child) {
             const c = child as ReactElement;
             if (c.props?.name) {
-                config = elementConfigMap.get(c.props.name) || unregisterElementConfig
+                config = shapeConfigMap.get(c.props.name) || unregisterShapeConfig
             }
         }
     });

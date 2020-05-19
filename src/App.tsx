@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import {Flower} from "./flower";
 import {StoreContext} from "./flower/context";
-import {InitData} from "./types";
+import {InitData} from "./flower/store/Proxy";
 
 
 function App() {
