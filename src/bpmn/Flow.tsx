@@ -20,14 +20,14 @@ class Flow extends LineHandler {
         if (activeOverlay) {
             activeOverlay.x += dx;
             activeOverlay.y += dy;
-        }else{
+        } else {
             this.x += dx;
             this.y += dy;
         }
     }
 
     set overlays(v) {
-
+        console.log("overlays初始化", v)
     }
 
 
@@ -39,7 +39,7 @@ const FlowElement: FunctionComponent<FlowProps> = ({points}) => {
     return <path d={`m 0,0 L ${path}`}
                  strokeWidth={2}
                  stroke={'black'}
-                 fill={'transparent'}
+                 fill={'none'}
                  markerEnd={`url(#${MarkerEnd})`}/>
 };
 const FlowArea: FunctionComponent<FlowProps> = ({points}) => {
