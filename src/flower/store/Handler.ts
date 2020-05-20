@@ -84,6 +84,7 @@ export abstract class ViewHandler implements PointData, Movable, HasOverlay {
     abstract measureSpaceWidth(): number;
 
     @observable static activeElementId: string;
+    @observable static activeOverlayId: string;
     @observable static focusElementId: string;
     @observable static hoverElementId: string;
 

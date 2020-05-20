@@ -44,26 +44,26 @@ function renderElement(shapes: ViewHandler[]) {
 }
 
 function renderOverlay(shapes: ViewHandler[]) {
-    return shapes.map(shape => {
-        return shape.overlays.length > 0 && <g key={shape.id}>
-          <g>
-              {shape.overlays.map(overlay => <circle cx={shape.x + overlay.x}
-                                                     cy={shape.y + overlay.y}
-                                                     r={5}
-                                                     key={overlay.id}
-                                                     fillOpacity={0.3}
-                                                     stroke={'red'}
-                                                     strokeWidth={1}
-                  />
-              )}
-          </g>
-        </g>
-    })
+    return shapes.map(shape => <g id={shape.id} key={shape.id}>
+        {shape.overlays.map(overlay => <circle cx={shape.x + overlay.x}
+                                               cy={shape.y + overlay.y}
+                                               r={15}
+                                               id={overlay.id}
+                                               key={overlay.id}
+                                               fillOpacity={0.3}
+                                               stroke={'red'}
+                                               pointerEvents={"all"}
+                                               strokeWidth={1}
+            />
+        )}
+    </g>)
+
 }
 
 export function FlowerElement(props: FlowerProps) {
 
     const [moving, setMoving] = useState(false);
+    const [debug, setDebug] = useState("")
 
     const handleClick = (e: React.MouseEvent<SVGSVGElement>) => {
         const element = e.target as SVGSVGElement;
@@ -79,11 +79,13 @@ export function FlowerElement(props: FlowerProps) {
         if (id) {
             setMoving(true);
             props.proxy.setActiveElementId(id);
+            props.proxy.setActiveOverlayId(element.id);
         }
     };
     const handleMouseMove = (e: React.MouseEvent<SVGSVGElement>) => {
         const element = e.target as SVGSVGElement;
         const id = element.parentElement?.id;
+        setDebug(element.toString() + id || "");
         if (id && moving) {
             props.proxy.proxyMoveByActiveElement(e.movementX, e.movementY)
         }
@@ -100,10 +102,10 @@ export function FlowerElement(props: FlowerProps) {
              onMouseMove={handleMouseMove}
              onMouseUp={handleMouseUp}
         >
-            <CodeElement shapes={props.proxy.shapes}/>
+            <g className={"debug"}><CodeElement shapes={props.proxy.shapes} message={debug}/></g>
             {renderDefs()}
-            {renderElement(props.proxy.shapes)}
-            {renderOverlay(props.proxy.shapes)}
+            <g className={"flow"}>{renderElement(props.proxy.shapes)}</g>
+            <g className={"overlay"}>{renderOverlay(props.proxy.shapes)}</g>
         </svg>
     </>)
 }

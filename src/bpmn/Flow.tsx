@@ -1,4 +1,4 @@
-import {computed} from "mobx";
+import {action, computed} from "mobx";
 import React, {FunctionComponent} from "react";
 import {ShapeConfig} from "../flower/config";
 import {LineData, LineHandler, ViewHandler} from "../flower/store/Handler";
@@ -14,6 +14,17 @@ class Flow extends LineHandler {
     @computed get overlays(): FlowOverlayProps[] {
         return this.points
     } ;
+
+    @action moveBy(dx: number, dy: number): void {
+        const activeOverlay = this.points.find(p => p.id === ViewHandler.activeOverlayId);
+        if (activeOverlay) {
+            activeOverlay.x += dx;
+            activeOverlay.y += dy;
+        }else{
+            this.x += dx;
+            this.y += dy;
+        }
+    }
 
     set overlays(v) {
 

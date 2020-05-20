@@ -1,14 +1,31 @@
 import React, {FunctionComponent} from "react";
 import {randomId} from "../util";
+import {ViewHandler} from "../store/Handler";
 
 export type CodeProps = {
-    shapes: any[]
+    shapes: any[],
+    message: string
 }
 
-export const CodeElement: FunctionComponent<CodeProps> = ({shapes}) => {
+export const CodeElement: FunctionComponent<CodeProps> = ({shapes, message}) => {
     return <g>
+        <text y={300}
+              x={200}
+              stroke={'darkgreen'}
+              fontFamily={'San'}
+              fontSize={11} fontWeight={'lighter'}
+              shapeRendering={'crispEdges'}>
+            {message}
+        </text>
+        <text y={300}
+              stroke={'darkgreen'}
+              fontFamily={'San'}
+              fontSize={11} fontWeight={'lighter'}
+              shapeRendering={'crispEdges'}>
+            activeElementId:{ViewHandler.activeElementId}
+        </text>
         {shapes.map((e, index: number) =>
-            <text x={5} y={300 + 15 * index}
+            <text x={5} y={320 + 15 * index}
                   key={randomId()}
                   stroke={'darkgreen'}
                   fontFamily={'San'}

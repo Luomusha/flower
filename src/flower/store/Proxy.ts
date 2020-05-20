@@ -9,16 +9,27 @@ export type Data = PointData | LineData | AreaData
 export interface ProxyType {
     shapes: ViewHandler[];
     initData: (data: InitData) => void;
-    setActiveElementId: (id: string) => void;
-    setFocusElementId: (id: string) => void;
-    setHoverElementId: (id: string) => void;
-    proxyMoveToActiveElement: (x: number, y: number) => void;
-    proxyMoveByActiveElement: (dx: number, dy: number) => void;
-    proxyResizeActiveElement: (id: string) => void;
+
+    setActiveElementId(id: string): void;
+
+    setActiveOverlayId(id: string): void;
+
+    setFocusElementId(id: string): void;
+
+    setHoverElementId(id: string): void;
+
+    proxyMoveToActiveElement(x: number, y: number): void;
+
+    proxyMoveByActiveElement(dx: number, dy: number): void;
+
+    proxyResizeActiveElement(id: string): void;
+
+
 }
 
 
 export class Proxy implements ProxyType {
+
     @observable shapes: ViewHandler[] = [];
 
     @action initData(data: InitData) {
@@ -31,6 +42,11 @@ export class Proxy implements ProxyType {
     @action setActiveElementId(id: string) {
         ViewHandler.activeElementId = id;
     }
+
+    @action setActiveOverlayId(id: string): void {
+        ViewHandler.activeOverlayId = id;
+    }
+
 
     @action setFocusElementId(id: string) {
         ViewHandler.focusElementId = id;
@@ -58,8 +74,4 @@ export class Proxy implements ProxyType {
 
     }
 
-
-
 }
-
-

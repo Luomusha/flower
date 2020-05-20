@@ -25,8 +25,8 @@ function App() {
     }, {
         id: "qqq3",
 
-        x: 310,
-        y: 280,
+        x: 380,
+        y: 200,
         name: "End"
     }, {
         id: "qqq4",
