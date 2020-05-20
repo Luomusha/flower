@@ -1,21 +1,7 @@
-import {action} from "mobx";
-import {Shape} from "./Shape";
+import {PointHandler} from "./Handler";
 
-export type UnregisterType = {
-    x: number;
-    y: number;
-    name: string;
-}
 
-export class Unregister extends Shape {
-
-    @action resizeBy(dScale: number) {
-
-    };
-
-    @action resizeTo(scale: number) {
-
-    }
+export class Unregister extends PointHandler {
 
     measureSpaceHeight(): number {
         return 50;
@@ -24,8 +10,5 @@ export class Unregister extends Shape {
     measureSpaceWidth(): number {
         return 80;
     }
-
-    overlays: Shape[] = [];
-
 
 }

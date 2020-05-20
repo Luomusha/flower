@@ -1,17 +1,13 @@
 import {action, computed, observable} from "mobx";
-import {Shape} from "./Shape";
 import {shapeConfigMap} from "../config/";
 import {unregisterShapeConfig} from "../config/UnregisterShape";
+import {AreaData, LineData, PointData, ViewHandler} from "./Handler";
 
 export type InitData = Data[]
-export type Data = {
-    name: string;
-    x: number;
-    y: number;
-} & any;
+export type Data = PointData | LineData | AreaData
 
 export interface ProxyType {
-    shapes: Shape[];
+    shapes: ViewHandler[];
     initData: (data: InitData) => void;
     setActiveElementId: (id: string) => void;
     setFocusElementId: (id: string) => void;
@@ -23,7 +19,7 @@ export interface ProxyType {
 
 
 export class Proxy implements ProxyType {
-    @observable shapes: Shape[] = [];
+    @observable shapes: ViewHandler[] = [];
 
     @action initData(data: InitData) {
         this.shapes = data.map(d => {
@@ -33,19 +29,19 @@ export class Proxy implements ProxyType {
     }
 
     @action setActiveElementId(id: string) {
-        Shape.activeElementId = id;
+        ViewHandler.activeElementId = id;
     }
 
     @action setFocusElementId(id: string) {
-        Shape.focusElementId = id;
+        ViewHandler.focusElementId = id;
     }
 
     @action setHoverElementId(id: string) {
-        Shape.hoverElementId = id;
+        ViewHandler.hoverElementId = id;
     }
 
     @computed get activeElement() {
-        return this.shapes.find(shape => shape.id === Shape.activeElementId)
+        return this.shapes.find(shape => shape.id === ViewHandler.activeElementId)
     }
 
     @action proxyMoveByActiveElement(dx: number, dy: number) {

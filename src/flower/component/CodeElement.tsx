@@ -1,9 +1,8 @@
 import React, {FunctionComponent} from "react";
-import {ShapeData} from "../store/Shape";
 import {randomId} from "../util";
 
 export type CodeProps = {
-    shapes: ShapeData[]
+    shapes: any[]
 }
 
 export const CodeElement: FunctionComponent<CodeProps> = ({shapes}) => {

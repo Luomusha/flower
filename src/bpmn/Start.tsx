@@ -1,24 +1,26 @@
-import {observable} from "mobx";
 import React, {FunctionComponent} from "react";
 import {ShapeConfig} from "../flower/config";
-import {Shape, ShapeData} from "../flower/store/Shape";
+import {AreaData, AreaHandler} from "../flower/store/Handler";
 
 const R = 18;
 
 const NAME: string = "Start";
 
-type StartType = ShapeData & {}
-type StartProps = ShapeData & {}
+type StartType = AreaData & {}
+type StartProps = AreaData & {}
 
-class Start extends Shape {
-    @observable r: number = R;
+class Start extends AreaHandler {
+    constructor(start: StartType) {
+        super({...start, points: [{x: R, y: R}]});
+    }
+
 
     measureSpaceWidth(): number {
-        return this.r * 2;
+        return this.points[0].x * 2;
     }
 
     measureSpaceHeight(): number {
-        return this.r * 2;
+        return this.points[0].y * 2;
     }
 
     overlays = [];

@@ -1,53 +1,22 @@
-import {computed, observable} from "mobx";
+import {computed} from "mobx";
 import React, {FunctionComponent} from "react";
 import {ShapeConfig} from "../flower/config";
-import {Shape, ShapeData} from "../flower/store/Shape";
+import {LineData, LineHandler, ViewHandler} from "../flower/store/Handler";
 import {DEF_ID as MarkerEnd} from "../flower/component/ArrowElement";
-import {Point} from "../types";
 
 const NAME: string = "Flow";
 
-type FlowData = ShapeData & {
-    points: {
-        x: number;
-        y: number;
-    }[]
-}
-type FlowProps = ShapeData & {
-    points: {
-        x: number;
-        y: number;
-    }[]
-}
-type FlowOverlayProps = ShapeData & {}
+type FlowProps = LineData & {}
+type FlowOverlayProps = ViewHandler & {}
 
-class Flow extends Shape {
-    constructor(data: FlowData) {
-        super(data);
-        this.points = data.points
-    }
-
-    @observable points: Point[] = [];
+class Flow extends LineHandler {
 
     @computed get overlays(): FlowOverlayProps[] {
-        return this.points.map(p => ({
-            x: this.x + p.x,
-            y: this.y + p.y, name: "Point"
-        }))
+        return this.points
     } ;
 
     set overlays(v) {
 
-    }
-
-    measureSpaceWidth(): number {
-        const maxXPoint = this.points.reduce((p, c) => p.x > c.x ? p : c);
-        return maxXPoint.x;
-    }
-
-    measureSpaceHeight(): number {
-        const maxYPoint = this.points.reduce((p, c) => p.y > c.y ? p : c);
-        return maxYPoint.y
     }
 
 

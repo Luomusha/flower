@@ -1,23 +1,24 @@
-import {observable} from "mobx";
 import React, {FunctionComponent} from "react";
 import {ShapeConfig} from "../flower/config";
-import {Shape, ShapeData} from "../flower/store/Shape";
+import {AreaData, AreaHandler} from "../flower/store/Handler";
 
 const NAME: string = "Task";
 
-type TaskType = ShapeData & {}
-type TaskProps = ShapeData & {}
+type TaskType = AreaData & {}
+type TaskProps = AreaData & {}
 
-class Task extends Shape {
-    @observable width: number = 100;
-    @observable height: number = 80;
+class Task extends AreaHandler {
+    constructor(task: TaskType) {
+        super({...task, points: [{x: 100, y: 80}]});
+    }
+
 
     measureSpaceWidth(): number {
-        return this.width;
+        return this.points[0].x;
     }
 
     measureSpaceHeight(): number {
-        return this.height;
+        return this.points[0].y;
     }
 
     overlays = [];

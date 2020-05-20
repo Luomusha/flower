@@ -8,9 +8,9 @@ import "../style.css"
 import {useObserver} from "mobx-react";
 import {CodeElement} from "./CodeElement";
 import {shapeConfigMap} from "../config/";
-import {Shape} from "../store/Shape";
 import {Proxy} from "../store/Proxy";
 import {unregisterShapeConfig} from "../config/UnregisterShape";
+import {ViewHandler} from "../store/Handler";
 
 type FlowerProps = {
     proxy: Proxy
@@ -25,17 +25,17 @@ function renderDefs() {
 }
 
 
-function renderElement(shapes: Shape[]) {
+function renderElement(shapes: ViewHandler[]) {
     return shapes.map(element => {
-            const config = shapeConfigMap.get(element.name) || unregisterShapeConfig;
-            return <ContainerElement id={element.id}
-                                     key={element.id}
-                                     positionX={element.x}
-                                     positionY={element.y}
-                                     width={element.maxX - element.minX}
-                                     height={element.maxY - element.minY}
-                                     name={element.name}
-                                     focus={element.focus}>
+        const config = shapeConfigMap.get(element.name) || unregisterShapeConfig;
+        return <ContainerElement id={element.id}
+                                 key={element.id}
+                                 positionX={element.x}
+                                 positionY={element.y}
+                                 width={element.maxX - element.minX}
+                                 height={element.maxY - element.minY}
+                                 name={element.name}
+                                 focus={element.focus}>
                 {React.createElement(config.element, element)}
                 {React.createElement(config.area, element)}
             </ContainerElement>
@@ -43,13 +43,14 @@ function renderElement(shapes: Shape[]) {
     )
 }
 
-function renderOverlay(shapes: Shape[]) {
+function renderOverlay(shapes: ViewHandler[]) {
     return shapes.map(shape => {
-        return shape.overlays.length > 0 && <g>
+        return shape.overlays.length > 0 && <g key={shape.id}>
           <g>
-              {shape.overlays.map(overlay => <circle cx={overlay.x}
-                                                     cy={overlay.y}
+              {shape.overlays.map(overlay => <circle cx={shape.x + overlay.x}
+                                                     cy={shape.y + overlay.y}
                                                      r={5}
+                                                     key={overlay.id}
                                                      fillOpacity={0.3}
                                                      stroke={'red'}
                                                      strokeWidth={1}
