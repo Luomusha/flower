@@ -1,14 +1,16 @@
 import React, {FunctionComponent} from "react";
 import {ShapeData} from "../store/Shape";
+import {randomId} from "../util";
 
 export type CodeProps = {
-    shape: ShapeData[]
+    shapes: ShapeData[]
 }
 
-export const CodeElement: FunctionComponent<CodeProps> = ({shape}) => {
+export const CodeElement: FunctionComponent<CodeProps> = ({shapes}) => {
     return <g>
-        {shape.map((e, index: number) =>
+        {shapes.map((e, index: number) =>
             <text x={5} y={300 + 15 * index}
+                  key={randomId()}
                   stroke={'darkgreen'}
                   fontFamily={'San'}
                   fontSize={11} fontWeight={'lighter'}

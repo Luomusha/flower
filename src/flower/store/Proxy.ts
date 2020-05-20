@@ -1,11 +1,14 @@
 import {action, computed, observable} from "mobx";
 import {Shape} from "./Shape";
-import {Unregister} from "./Unregister";
+import {shapeConfigMap} from "../config/";
+import {unregisterShapeConfig} from "../config/UnregisterShape";
 
 export type InitData = Data[]
 export type Data = {
-
-}
+    name: string;
+    x: number;
+    y: number;
+} & any;
 
 export interface ProxyType {
     shapes: Shape[];
@@ -24,7 +27,8 @@ export class Proxy implements ProxyType {
 
     @action initData(data: InitData) {
         this.shapes = data.map(d => {
-            return new Unregister()
+            const config = shapeConfigMap.get(d.name) || unregisterShapeConfig;
+            return new config.proxyShape(d);
         });
     }
 

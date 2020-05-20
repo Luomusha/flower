@@ -1,7 +1,5 @@
-import React, {Children, FunctionComponent, ReactElement} from "react";
+import React, {FunctionComponent} from "react";
 import {useObserver} from "mobx-react";
-import {shapeConfigMap, unregisterShapeConfig} from "../config/config";
-
 
 
 export type ContainerProps = {
@@ -26,26 +24,14 @@ export const ContainerElement: FunctionComponent<ContainerProps> = ({
                                                                         focus,
                                                                         margin = 6,
                                                                     }) => {
-    let config = unregisterShapeConfig;
-    Children.forEach(children, function (child) {
-        if (['boolean', 'undefined', 'string', 'number'].includes(typeof child) || child === null) {
-            return child
-        }
-        if (child) {
-            const c = child as ReactElement;
-            if (c.props?.name) {
-                config = shapeConfigMap.get(c.props.name) || unregisterShapeConfig
-            }
-        }
-    });
 
     return useObserver(() => <g transform={`matrix(1 0 0 1 ${positionX} ${positionY})`}
                                 id={id}
+                                key={id}
         >
 
+        <text>{name}</text>
             {children}
-            {React.createElement("text", undefined, `${name}`)}
-
             <rect x={-6} y={-6}
                   width={width + margin + margin}
                   height={height + margin + margin}
@@ -53,6 +39,7 @@ export const ContainerElement: FunctionComponent<ContainerProps> = ({
                   shapeRendering={"crispEdges"}
                   strokeDasharray={3}
                   stroke={focus ? 'black' : undefined}
+                  pointerEvents={"none"}
                   fill={'transparent'}>
             </rect>
         </g>

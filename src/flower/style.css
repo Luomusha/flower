@@ -1,13 +1,9 @@
-g:hover rect:last-child {
-    stroke: cadetblue;
+.area:hover + rect:last-child {
+    stroke: brown;
 }
 
-g:active rect:last-child {
-    stroke: chocolate;
-}
-
-g:focus rect:last-child {
-    stroke: antiquewhite;
+.area:active rect:last-child {
+    stroke: deeppink;
 }
 
 *{

@@ -1,19 +1,13 @@
-import {action, observable} from "mobx";
+import {action} from "mobx";
 import {Shape} from "./Shape";
 
+export type UnregisterType = {
+    x: number;
+    y: number;
+    name: string;
+}
+
 export class Unregister extends Shape {
-    readonly name: string;
-
-    constructor() {
-        super({
-            x: 10,
-            y:10
-        });
-        this.name = "Unregister";
-    }
-
-    @observable height: number = 80;
-    @observable width: number = 100;
 
     @action resizeBy(dScale: number) {
 
@@ -24,12 +18,14 @@ export class Unregister extends Shape {
     }
 
     measureSpaceHeight(): number {
-        return 0;
+        return 50;
     }
 
     measureSpaceWidth(): number {
-        return 0;
+        return 80;
     }
+
+    overlays: Shape[] = [];
 
 
 }

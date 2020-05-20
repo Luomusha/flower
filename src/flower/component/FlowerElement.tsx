@@ -1,13 +1,16 @@
+import 'mobx-react-lite/batchingForReactDom'
+import 'mobx-react-lite/batchingOptOut'
 import React, {useState} from "react"
-import {ContainerElement} from "./component/ContainerElement";
-import {ArrowElement} from "./component/ArrowElement";
+import {ContainerElement} from "./ContainerElement";
+import {ArrowElement} from "./ArrowElement";
 
-import "./style.css"
+import "../style.css"
 import {useObserver} from "mobx-react";
-import {CodeElement} from "./component/CodeElement";
-import {shapeConfigMap, unregisterShapeConfig} from "./config/config";
-import {Shape} from "./store/Shape";
-import {Proxy} from "./store/Proxy";
+import {CodeElement} from "./CodeElement";
+import {shapeConfigMap} from "../config/";
+import {Shape} from "../store/Shape";
+import {Proxy} from "../store/Proxy";
+import {unregisterShapeConfig} from "../config/UnregisterShape";
 
 type FlowerProps = {
     proxy: Proxy
@@ -34,16 +37,30 @@ function renderElement(shapes: Shape[]) {
                                      name={element.name}
                                      focus={element.focus}>
                 {React.createElement(config.element, element)}
+                {React.createElement(config.area, element)}
             </ContainerElement>
         }
     )
 }
 
-function renderOverlay(){
-    return
+function renderOverlay(shapes: Shape[]) {
+    return shapes.map(shape => {
+        return shape.overlays.length > 0 && <g>
+          <g>
+              {shape.overlays.map(overlay => <circle cx={overlay.x}
+                                                     cy={overlay.y}
+                                                     r={5}
+                                                     fillOpacity={0.3}
+                                                     stroke={'red'}
+                                                     strokeWidth={1}
+                  />
+              )}
+          </g>
+        </g>
+    })
 }
 
-export function Flower(props: FlowerProps) {
+export function FlowerElement(props: FlowerProps) {
 
     const [moving, setMoving] = useState(false);
 
@@ -60,7 +77,6 @@ export function Flower(props: FlowerProps) {
         const id = element.parentElement?.id;
         if (id) {
             setMoving(true);
-            console.log(id)
             props.proxy.setActiveElementId(id);
         }
     };
@@ -68,7 +84,6 @@ export function Flower(props: FlowerProps) {
         const element = e.target as SVGSVGElement;
         const id = element.parentElement?.id;
         if (id && moving) {
-            console.log(id);
             props.proxy.proxyMoveByActiveElement(e.movementX, e.movementY)
         }
     };
@@ -84,10 +99,10 @@ export function Flower(props: FlowerProps) {
              onMouseMove={handleMouseMove}
              onMouseUp={handleMouseUp}
         >
-            <CodeElement elements={props.proxy.shapes} />
+            <CodeElement shapes={props.proxy.shapes}/>
             {renderDefs()}
             {renderElement(props.proxy.shapes)}
-            {renderOverlay()}
+            {renderOverlay(props.proxy.shapes)}
         </svg>
     </>)
 }

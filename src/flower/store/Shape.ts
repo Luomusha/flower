@@ -1,12 +1,12 @@
 import {randomId} from "../util";
 import {action, computed, observable} from "mobx";
+import {NAME} from "../config/UnregisterShape";
 
 export type ShapeData = {
     id?: string;
+    name: string
     x: number;
     y: number;
-    width?: number;
-    height?: number;
 }
 
 export interface Movable {
@@ -16,12 +16,6 @@ export interface Movable {
     moveTo(x: number, y: number): void;
 
     moveBy(dx: number, dy: number): void;
-}
-
-export interface Resizeable {
-    width: number;
-    height: number;
-
 }
 
 export interface Scalable {
@@ -37,43 +31,46 @@ export interface Displayable {
     readonly name: string;
     x: number;
     y: number;
-    width: number;
-    height: number;
     focus: boolean;
     maxX: number;
     maxY: number;
     minX: number;
     minY: number;
+    centerX: number;
+    centerY: number;
 
     measureSpaceHeight(): number;
 
     measureSpaceWidth(): number;
 }
 
+export interface Overlay {
+    overlays: Shape[]
+}
 
-export abstract class Shape implements Displayable, Movable, Resizeable, Scalable {
+export abstract class Shape implements Displayable, Movable, Scalable, Overlay {
     protected constructor(e: ShapeData) {
+        this.name = e.name || NAME;
         this.id = e.id || randomId();
         this.x = e.x || 10;
         this.y = e.y || 10;
-        this.width = e.width || 10;
-        this.height = e.height || 10;
         this.scale = 1;
     }
+    abstract overlays: any[];
+    resizeBy(dScale: number): void {
 
+    };
 
-    abstract resizeBy(dScale: number): void;
+    resizeTo(scale: number): void {
 
-    abstract resizeTo(scale: number): void;
+    };
 
 
     readonly id: string;
-    abstract readonly name: string;
+    readonly name: string;
 
     @observable x: number;
     @observable y: number;
-    @observable height: number;
-    @observable width: number;
     @observable scale: number;
     @action moveBy = (dx: number, dy: number) => {
         this.x += dx;
@@ -105,6 +102,14 @@ export abstract class Shape implements Displayable, Movable, Resizeable, Scalabl
         return this.y
     };
 
+    @computed get centerX(): number {
+        return this.x + this.measureSpaceWidth() * 0.5
+    };
+
+    @computed get centerY(): number {
+        return this.y + this.measureSpaceHeight() * 0.5
+    };
+
 
     @observable static activeElementId: string;
     @observable static focusElementId: string;
@@ -114,6 +119,7 @@ export abstract class Shape implements Displayable, Movable, Resizeable, Scalabl
     @computed get focus() {
         return Shape.focusElementId === this.id;
     };
+
 
 
 }
