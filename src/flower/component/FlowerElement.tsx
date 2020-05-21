@@ -27,15 +27,20 @@ function renderDefs() {
 
 function renderElement(shapes: ViewHandler[]) {
     return shapes.map(element => {
-        const config = shapeConfigMap.get(element.name) || unregisterShapeConfig;
-        return <ContainerElement id={element.id}
-                                 key={element.id}
-                                 positionX={element.x}
-                                 positionY={element.y}
-                                 width={element.maxX - element.minX}
-                                 height={element.maxY - element.minY}
-                                 name={element.name}
-                                 focus={element.focus}>
+            const config = shapeConfigMap.get(element.shape) || unregisterShapeConfig;
+            return <ContainerElement id={element.id}
+                                     key={element.id}
+                                     position={element.position}
+                                     spaceWidth={element.spaceWidth}
+                                     spaceHeight={element.spaceHeight}
+                                     shape={element.shape}
+                                     focus={element.focus}
+                                     maxX={element.maxX}
+                                     maxY={element.maxY}
+                                     minX={element.minX}
+                                     minY={element.minY}
+                                     points={element.points}
+                                     overlays={element.overlays}>
                 {React.createElement(config.element, element)}
                 {React.createElement(config.area, element)}
             </ContainerElement>
@@ -45,8 +50,8 @@ function renderElement(shapes: ViewHandler[]) {
 
 function renderOverlay(shapes: ViewHandler[]) {
     return shapes.map(shape => <g id={shape.id} key={shape.id}>
-        {shape.overlays.map(overlay => <circle cx={shape.x + overlay.x}
-                                               cy={shape.y + overlay.y}
+        {shape.overlays.map(overlay => <circle cx={shape.position.vx + overlay.position.vx}
+                                               cy={shape.position.vy + overlay.position.vy}
                                                r={10}
                                                id={overlay.id}
                                                key={overlay.id}

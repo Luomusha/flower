@@ -6,7 +6,7 @@ export type ShapeConfig = {
     name: string;
     element: FunctionComponent<any>;
     area: FunctionComponent<any>;
-    proxyShape: any
+    handler: any
 }
 
 export const shapeConfigMap: ShapeConfigMap = new Map();

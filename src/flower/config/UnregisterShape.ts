@@ -8,6 +8,6 @@ export const unregisterShapeConfig: ShapeConfig = {
     name: NAME,
     element: UnregisterElement,
     area: UnregisterElement,
-    proxyShape: Unregister
+    handler: Unregister
 };
 registerShape(unregisterShapeConfig);

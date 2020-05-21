@@ -1,44 +1,24 @@
 import React, {FunctionComponent} from "react";
 import {useObserver} from "mobx-react";
+import {ViewProps} from "../store/Handler";
 
+export type ContainerProps = ViewProps
+export const ContainerElement: FunctionComponent<ContainerProps> = (props) => {
 
-export type ContainerProps = {
-    id: string;
-    name: string;
-    positionX: number;
-    positionY: number;
-    width?: number;
-    height?: number;
-    focus?: boolean;
-    margin?: number;
-}
-
-export const ContainerElement: FunctionComponent<ContainerProps> = ({
-                                                                        children,
-                                                                        positionX,
-                                                                        positionY,
-                                                                        width = 100,
-                                                                        height = 80,
-                                                                        id,
-                                                                        name,
-                                                                        focus,
-                                                                        margin = 6,
-                                                                    }) => {
-
-    return useObserver(() => <g transform={`matrix(1 0 0 1 ${positionX} ${positionY})`}
-                                id={id}
-                                key={id}
+    return useObserver(() => <g transform={`matrix(1 0 0 1 ${props.position.vx} ${props.position.vy})`}
+                                id={props.id}
+                                key={props.id}
         >
 
-        <text>{name}</text>
-            {children}
-            <rect x={-6} y={-6}
-                  width={width + margin + margin}
-                  height={height + margin + margin}
+            <text>{props.shape}</text>
+            {props.children}
+            <rect x={props.position.vx + props.minX- 6} y={props.position.vy + props.minY - 6}
+                  width={props.spaceWidth + 6 + 6}
+                  height={props.spaceHeight + 6 + 6}
                   strokeWidth={1}
                   shapeRendering={"crispEdges"}
                   strokeDasharray={3}
-                  stroke={focus ? 'black' : undefined}
+                  stroke={props.focus ? 'black' : undefined}
                   pointerEvents={"none"}
                   fill={'transparent'}>
             </rect>

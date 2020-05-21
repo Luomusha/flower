@@ -1,14 +1,6 @@
-import {PointHandler} from "./Handler";
+import {ViewHandler} from "./Handler";
 
 
-export class Unregister extends PointHandler {
-
-    measureSpaceHeight(): number {
-        return 50;
-    }
-
-    measureSpaceWidth(): number {
-        return 80;
-    }
+export class Unregister extends ViewHandler {
 
 }

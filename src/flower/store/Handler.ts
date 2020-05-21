@@ -1,140 +1,110 @@
 import {action, computed, observable} from "mobx";
-import {randomId} from "../util";
-
 
 export type Vector = { vx: number; vy: number; }
-export type Point = { x: number; y: number; }
-export type Line = { x: number; y: number; points: Point[] }
-export type Area = { x: number; y: number; points: Point[]; shape: string }
 
-export type Data = { id: string; name: string; }
-export type PointData = Point & Data;
-export type LineData = Line & Data;
-export type AreaData = Area & Data;
+export type Point = {
+    x: number;
+    y: number;
+}
 
-interface Movable extends PointData {
-    moveTo(x: number, y: number): void;
+
+
+interface Movable {
+    position: Vector;
+
+    moveTo(vx: number, vy: number): void;
 
     moveBy(dx: number, dy: number): void;
 }
 
-export interface Scalable {
-    scale: number;
 
-    resizeTo(scale: number): void;
-
-    resizeBy(dScale: number): void;
+export interface ViewProps {
+    id: string;
+    position: Vector;
+    points: Point[];
+    shape: string;
+    overlays: ViewHandler[];
+    maxX: number;
+    maxY: number;
+    minX: number;
+    minY: number;
+    spaceWidth: number;
+    spaceHeight: number;
+    focus: boolean;
 }
 
-export interface HasOverlay {
-    overlays: ViewHandler[]
+export type Data = {
+    id: string;
+    x: number;
+    y: number;
+    points: Point[]
+    shape: string
 }
 
-export abstract class ViewHandler implements PointData, Movable, HasOverlay {
-    protected constructor(point: PointData) {
-        this.id = point.id;
-        this.name = point.name;
-        this.x = point.x;
-        this.y = point.y;
+
+export class ViewHandler implements ViewProps, Movable {
+    constructor(data: Data) {
+        this.id = data.id;
+        this.shape = data.shape;
+        this.points = data.points;
+        this.position = {vx: data.x, vy: data.y};
     }
 
-    readonly id: string;
-    @observable name: string;
-    @observable x: number;
-    @observable y: number;
-
-    abstract overlays: ViewHandler[];
-
-    @action moveBy(dx: number, dy: number): void {
-        this.x += dx;
-        this.y += dy;
-    }
-
-    @action moveTo(x: number, y: number): void {
-        this.x = x;
-        this.y = y;
-    }
-
-    @computed get maxX(): number {
-        return this.x + this.measureSpaceWidth()
-    };
-
-    @computed get maxY(): number {
-        return this.y + this.measureSpaceHeight()
-    };
-
-    @computed get minX(): number {
-        return this.x
-    };
-
-    @computed get minY(): number {
-        return this.y
-    };
-
-    @computed get centerX(): number {
-        return this.x + this.measureSpaceWidth() * 0.5
-    };
-
-    @computed get centerY(): number {
-        return this.y + this.measureSpaceHeight() * 0.5
-    };
-
-    abstract measureSpaceHeight(): number;
-
-    abstract measureSpaceWidth(): number;
-
+    overlays: ViewHandler[] =[];
     @observable static activeElementId: string;
     @observable static activeOverlayId: string;
     @observable static focusElementId: string;
     @observable static hoverElementId: string;
 
+    readonly id: string;
+    @observable position: Vector;
+
+    @observable points: Point[];
+    @observable shape: string;
+
+
+
+
+    @computed get maxX(): number {
+        const maxXPoint = this.points.reduce((p, c) => p.x > c.x ? p : c);
+        return maxXPoint.x
+    };
+
+    @computed get maxY(): number {
+        const maxYPoint = this.points.reduce((p, c) => p.y > c.y ? p : c);
+        return maxYPoint.y
+    };
+
+    @computed get minX(): number {
+        const maxXPoint = this.points.reduce((p, c) => p.x < c.x ? p : c);
+        return maxXPoint.x
+    };
+
+    @computed get minY(): number {
+        const maxYPoint = this.points.reduce((p, c) => p.y < c.y ? p : c);
+        return maxYPoint.y
+    };
+
+    @computed get spaceHeight(): number {
+        return this.maxY - this.minY
+    };
+
+    @computed get spaceWidth(): number {
+        return this.maxX - this.minX
+    };
+
     @computed get focus() {
         return ViewHandler.focusElementId === this.id;
     };
-}
 
-export class PointHandler extends ViewHandler {
-    measureSpaceWidth(): number {
-        return 0;
+    @action moveBy(dx: number, dy: number): void {
+        this.position.vx += dx;
+        this.position.vy += dy;
     }
 
-    measureSpaceHeight(): number {
-        return 0;
+    @action moveTo(vx: number, vy: number): void {
+        this.position.vx = vx;
+        this.position.vy = vy;
     }
 
-    overlays: ViewHandler[] = [];
-
-}
-
-export abstract class LineHandler extends PointHandler {
-    protected constructor(lineData: LineData) {
-        super(lineData);
-        this.points = lineData.points.map(p => new PointHandler({...p, id: randomId(), name: "default name"}))
-    }
-
-    points: PointHandler[];
-
-    measureSpaceWidth(): number {
-        const maxXPoint = this.points.reduce((p, c) => p.x > c.x ? p : c);
-        return maxXPoint.x;
-    }
-
-    measureSpaceHeight(): number {
-        const maxYPoint = this.points.reduce((p, c) => p.y > c.y ? p : c);
-        return maxYPoint.y
-    }
-
-}
-
-export abstract class AreaHandler extends LineHandler {
-    protected constructor(areaData: AreaData) {
-        super(areaData);
-        this.shape = areaData.shape
-    }
-
-    shape: string;
-
-    abstract measureSpaceWidth(): number
-
-    abstract measureSpaceHeight(): number
 }

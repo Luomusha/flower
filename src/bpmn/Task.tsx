@@ -1,24 +1,16 @@
 import React, {FunctionComponent} from "react";
 import {ShapeConfig} from "../flower/config";
-import {AreaData, AreaHandler} from "../flower/store/Handler";
+import {Data, ViewHandler} from "../flower/store/Handler";
 
 const NAME: string = "Task";
 
-type TaskType = AreaData & {}
-type TaskProps = AreaData & {}
+type TaskType = Data & {}
+type TaskProps = Data & {}
 
-class Task extends AreaHandler {
+class Task extends ViewHandler {
     constructor(task: TaskType) {
-        super({...task, points: [{x: 100, y: 80}]});
-    }
-
-
-    measureSpaceWidth(): number {
-        return this.points[0].x;
-    }
-
-    measureSpaceHeight(): number {
-        return this.points[0].y;
+        super(task);
+        this.points.push({x: 100, y: 80})
     }
 
     overlays = [];
@@ -46,12 +38,12 @@ const TaskArea: FunctionComponent<TaskProps> = () => {
                  pointerEvents={"all"}
                  strokeWidth={15}
     />
-}
+};
 
 export const taskShapeConfig: ShapeConfig = {
     element: TaskElement,
     area: TaskArea,
     name: NAME,
-    proxyShape: Task
+    handler: Task
 }
 

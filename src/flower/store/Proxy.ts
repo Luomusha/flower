@@ -1,10 +1,10 @@
 import {action, computed, observable} from "mobx";
-import {shapeConfigMap} from "../config/";
+import {Data, ViewHandler} from "./Handler";
+import {shapeConfigMap} from "../config";
+import {Unregister} from "./Unregister";
 import {unregisterShapeConfig} from "../config/UnregisterShape";
-import {AreaData, LineData, PointData, ViewHandler} from "./Handler";
 
 export type InitData = Data[]
-export type Data = PointData | LineData | AreaData
 
 export interface ProxyType {
     shapes: ViewHandler[];
@@ -34,8 +34,8 @@ export class Proxy implements ProxyType {
 
     @action initData(data: InitData) {
         this.shapes = data.map(d => {
-            const config = shapeConfigMap.get(d.name) || unregisterShapeConfig;
-            return new config.proxyShape(d);
+            const config = shapeConfigMap.get(d.shape) || unregisterShapeConfig;
+            return new config.handler(d);
         });
     }
 

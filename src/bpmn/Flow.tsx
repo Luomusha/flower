@@ -1,35 +1,16 @@
-import {action, computed} from "mobx";
 import React, {FunctionComponent} from "react";
 import {ShapeConfig} from "../flower/config";
-import {LineData, LineHandler, ViewHandler} from "../flower/store/Handler";
+import {Data, ViewHandler} from "../flower/store/Handler";
 import {DEF_ID as MarkerEnd} from "../flower/component/ArrowElement";
 
 const NAME: string = "Flow";
 
-type FlowProps = LineData & {}
+type FlowProps = Data & {}
 type FlowOverlayProps = ViewHandler & {}
 
-class Flow extends LineHandler {
+class Flow extends ViewHandler {
 
-    @computed get overlays(): FlowOverlayProps[] {
-        return this.points
-    } ;
-
-    @action moveBy(dx: number, dy: number): void {
-        const activeOverlay = this.points.find(p => p.id === ViewHandler.activeOverlayId);
-        if (activeOverlay) {
-            activeOverlay.x += dx;
-            activeOverlay.y += dy;
-        } else {
-            this.x += dx;
-            this.y += dy;
-        }
-    }
-
-    set overlays(v) {
-        console.log("overlays初始化", v)
-    }
-
+    overlays = [];
 
 }
 
@@ -59,6 +40,6 @@ export const flowShapeConfig: ShapeConfig = {
     element: FlowElement,
     area: FlowArea,
     name: NAME,
-    proxyShape: Flow
+    handler: Flow
 };
 
