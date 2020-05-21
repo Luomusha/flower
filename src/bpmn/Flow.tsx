@@ -36,7 +36,7 @@ class Flow extends LineHandler {
 const FlowElement: FunctionComponent<FlowProps> = ({points}) => {
     const path = points.map(p => `${p.x},${p.y}`);
 
-    return <path d={`m 0,0 L ${path}`}
+    return <path d={`m ${points[0].x},${points[0].y} L ${path}`}
                  strokeWidth={2}
                  stroke={'black'}
                  fill={'none'}
@@ -51,7 +51,7 @@ const FlowArea: FunctionComponent<FlowProps> = ({points}) => {
                      fill={"none"}
                      pointerEvents={"stroke"}
                      className={"area"}
-                     strokeOpacity={0.3}
+                     strokeOpacity={0.1}
     />
 };
 

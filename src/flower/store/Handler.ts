@@ -4,8 +4,8 @@ import {randomId} from "../util";
 
 export type Vector = { vx: number; vy: number; }
 export type Point = { x: number; y: number; }
-export type Line = Point & { points: Point[] }
-export type Area = Line & { shape: string }
+export type Line = { x: number; y: number; points: Point[] }
+export type Area = { x: number; y: number; points: Point[]; shape: string }
 
 export type Data = { id: string; name: string; }
 export type PointData = Point & Data;

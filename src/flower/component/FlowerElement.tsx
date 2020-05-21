@@ -47,10 +47,10 @@ function renderOverlay(shapes: ViewHandler[]) {
     return shapes.map(shape => <g id={shape.id} key={shape.id}>
         {shape.overlays.map(overlay => <circle cx={shape.x + overlay.x}
                                                cy={shape.y + overlay.y}
-                                               r={15}
+                                               r={10}
                                                id={overlay.id}
                                                key={overlay.id}
-                                               fillOpacity={0.3}
+                                               fillOpacity={0.1}
                                                stroke={'red'}
                                                pointerEvents={"all"}
                                                strokeWidth={1}
@@ -59,6 +59,7 @@ function renderOverlay(shapes: ViewHandler[]) {
     </g>)
 
 }
+
 
 export function FlowerElement(props: FlowerProps) {
 
