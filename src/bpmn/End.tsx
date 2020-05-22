@@ -10,7 +10,6 @@ type EndType = Data & {}
 type EndProps = Data & {}
 
 class End extends ViewHandler {
-    overlays: ViewHandler[] = [];
 }
 
 const EndElement: FunctionComponent<EndProps> = ({x = 18, y = 18}) => {

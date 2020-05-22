@@ -10,7 +10,6 @@ type StartType = Data & {}
 type StartProps = Data & {}
 
 class Start extends ViewHandler {
-    overlays = [];
 }
 
 const StartElement: FunctionComponent<StartProps> = ({x = 18, y = 18}) => {

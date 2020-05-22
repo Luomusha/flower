@@ -10,8 +10,6 @@ type FlowOverlayProps = ViewHandler & {}
 
 class Flow extends ViewHandler {
 
-    overlays = [];
-
 }
 
 const FlowElement: FunctionComponent<FlowProps> = ({points}) => {

@@ -11,6 +11,7 @@ import {shapeConfigMap} from "../config/";
 import {Proxy} from "../store/Proxy";
 import {unregisterShapeConfig} from "../config/UnregisterShape";
 import {ViewHandler} from "../store/Handler";
+import {randomId} from "../util";
 
 type FlowerProps = {
     proxy: Proxy
@@ -50,11 +51,10 @@ function renderElement(shapes: ViewHandler[]) {
 
 function renderOverlay(shapes: ViewHandler[]) {
     return shapes.map(shape => <g id={shape.id} key={shape.id}>
-        {shape.overlays.map(overlay => <circle cx={shape.position.vx + overlay.position.vx}
-                                               cy={shape.position.vy + overlay.position.vy}
+        {shape.points.map(p => <circle cx={shape.position.vx + p.x}
+                                               cy={shape.position.vy + p.y}
                                                r={10}
-                                               id={overlay.id}
-                                               key={overlay.id}
+                                               key={randomId()}
                                                fillOpacity={0.1}
                                                stroke={'red'}
                                                pointerEvents={"all"}

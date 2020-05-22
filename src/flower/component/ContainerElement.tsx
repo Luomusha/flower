@@ -10,18 +10,18 @@ export const ContainerElement: FunctionComponent<ContainerProps> = (props) => {
                                 key={props.id}
         >
 
-            <text>{props.shape}</text>
+            <text x={props.minX} y={props.minY}>{props.shape}</text>
             {props.children}
-            <rect x={props.position.vx + props.minX- 6} y={props.position.vy + props.minY - 6}
-                  width={props.spaceWidth + 6 + 6}
-                  height={props.spaceHeight + 6 + 6}
-                  strokeWidth={1}
-                  shapeRendering={"crispEdges"}
-                  strokeDasharray={3}
-                  stroke={props.focus ? 'black' : undefined}
-                  pointerEvents={"none"}
-                  fill={'transparent'}>
-            </rect>
+        <rect x={props.minX - 6} y={props.minY - 6}
+              width={props.spaceWidth + 6 + 6}
+              height={props.spaceHeight + 6 + 6}
+              strokeWidth={1}
+              shapeRendering={"crispEdges"}
+              strokeDasharray={3}
+              stroke={props.focus ? 'black' : undefined}
+              pointerEvents={"none"}
+              fill={'transparent'}>
+        </rect>
         </g>
     )
 };
