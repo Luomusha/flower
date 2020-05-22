@@ -52,7 +52,7 @@ export class ViewHandler implements ViewProps, Movable {
 
     overlays: ViewHandler[] =[];
     @observable static activeElementId: string;
-    @observable static activeOverlayId: string;
+    @observable static activeElementPoint: number;
     @observable static focusElementId: string;
     @observable static hoverElementId: string;
 

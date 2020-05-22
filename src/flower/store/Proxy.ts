@@ -12,7 +12,7 @@ export interface ProxyType {
 
     setActiveElementId(id: string): void;
 
-    setActiveOverlayId(id: string): void;
+    setActiveElementPoint(id: number): void;
 
     setFocusElementId(id: string): void;
 
@@ -43,8 +43,8 @@ export class Proxy implements ProxyType {
         ViewHandler.activeElementId = id;
     }
 
-    @action setActiveOverlayId(id: string): void {
-        ViewHandler.activeOverlayId = id;
+    @action setActiveElementPoint(id: number): void {
+        ViewHandler.activeElementPoint = id;
     }
 
 
