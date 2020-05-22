@@ -1,4 +1,5 @@
 import {action, computed, observable} from "mobx";
+import {randomId} from "../util";
 
 export type Vector = { vx: number; vy: number; }
 
@@ -6,7 +7,6 @@ export type Point = {
     x: number;
     y: number;
 }
-
 
 
 interface Movable {
@@ -18,12 +18,20 @@ interface Movable {
 }
 
 
+export type Data = {
+    id: string;
+    x: number;
+    y: number;
+    points: Point[]
+    shape: string
+}
+
 export interface ViewProps {
     id: string;
     position: Vector;
     points: Point[];
     shape: string;
-    overlays: ViewHandler[];
+    overlays: Data[];
     maxX: number;
     maxY: number;
     minX: number;
@@ -33,15 +41,6 @@ export interface ViewProps {
     focus: boolean;
 }
 
-export type Data = {
-    id: string;
-    x: number;
-    y: number;
-    points: Point[]
-    shape: string
-}
-
-
 export class ViewHandler implements ViewProps, Movable {
     constructor(data: Data) {
         this.id = data.id;
@@ -50,7 +49,6 @@ export class ViewHandler implements ViewProps, Movable {
         this.position = {vx: data.x, vy: data.y};
     }
 
-    overlays: ViewHandler[] =[];
     @observable static activeElementId: string;
     @observable static activeOverlayId: string;
     @observable static focusElementId: string;
@@ -58,12 +56,12 @@ export class ViewHandler implements ViewProps, Movable {
 
     readonly id: string;
     @observable position: Vector;
-
     @observable points: Point[];
     @observable shape: string;
 
-
-
+    @computed get overlays() {
+        return this.points.map(p => ({id: randomId(), x: p.x, y: p.y, points: [], shape: "Point"}))
+    };
 
     @computed get maxX(): number {
         const maxXPoint = this.points.reduce((p, c) => p.x > c.x ? p : c);

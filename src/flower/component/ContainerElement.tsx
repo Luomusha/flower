@@ -10,9 +10,9 @@ export const ContainerElement: FunctionComponent<ContainerProps> = (props) => {
                                 key={props.id}
         >
 
-            <text>{props.shape}</text>
+            <text>{props.shape}{props.position.vx}</text>
             {props.children}
-            <rect x={props.position.vx + props.minX- 6} y={props.position.vy + props.minY - 6}
+            <rect x={ props.minX - 6} y={ props.minY - 6}
                   width={props.spaceWidth + 6 + 6}
                   height={props.spaceHeight + 6 + 6}
                   strokeWidth={1}

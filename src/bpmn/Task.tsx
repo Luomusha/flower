@@ -12,9 +12,6 @@ class Task extends ViewHandler {
         super(task);
         this.points.push({x: 100, y: 80})
     }
-
-    overlays = [];
-
 }
 
 const TaskElement: FunctionComponent<TaskProps> = () => {

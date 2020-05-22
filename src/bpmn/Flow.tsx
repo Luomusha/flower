@@ -2,6 +2,8 @@ import React, {FunctionComponent} from "react";
 import {ShapeConfig} from "../flower/config";
 import {Data, ViewHandler} from "../flower/store/Handler";
 import {DEF_ID as MarkerEnd} from "../flower/component/ArrowElement";
+import {computed} from "mobx";
+import {randomId} from "../flower/util";
 
 const NAME: string = "Flow";
 
@@ -9,10 +11,10 @@ type FlowProps = Data & {}
 type FlowOverlayProps = ViewHandler & {}
 
 class Flow extends ViewHandler {
-
-    overlays = [];
-
-}
+    // @computed get overlays() {
+    //     //     return this.points.map(p => ({id:randomId(),shape:"Point"}))
+    //     // };
+ }
 
 const FlowElement: FunctionComponent<FlowProps> = ({points}) => {
     const path = points.map(p => `${p.x},${p.y}`);

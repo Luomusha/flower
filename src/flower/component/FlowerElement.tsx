@@ -3,7 +3,6 @@ import 'mobx-react-lite/batchingOptOut'
 import React, {useState} from "react"
 import {ContainerElement} from "./ContainerElement";
 import {ArrowElement} from "./ArrowElement";
-
 import "../style.css"
 import {useObserver} from "mobx-react";
 import {CodeElement} from "./CodeElement";
@@ -16,42 +15,40 @@ type FlowerProps = {
     proxy: Proxy
 }
 
-
 function renderDefs() {
     return <defs>
         <ArrowElement/>
     </defs>
-
 }
 
-
 function renderElement(shapes: ViewHandler[]) {
-    return shapes.map(element => {
-            const config = shapeConfigMap.get(element.shape) || unregisterShapeConfig;
-            return <ContainerElement id={element.id}
-                                     key={element.id}
-                                     position={element.position}
-                                     spaceWidth={element.spaceWidth}
-                                     spaceHeight={element.spaceHeight}
-                                     shape={element.shape}
-                                     focus={element.focus}
-                                     maxX={element.maxX}
-                                     maxY={element.maxY}
-                                     minX={element.minX}
-                                     minY={element.minY}
-                                     points={element.points}
-                                     overlays={element.overlays}>
-                {React.createElement(config.element, element)}
-                {React.createElement(config.area, element)}
-            </ContainerElement>
-        }
-    )
+    return shapes
+        .map(element => {
+                const config = shapeConfigMap.get(element.shape) || unregisterShapeConfig;
+                return <ContainerElement id={element.id}
+                                         key={element.id}
+                                         position={element.position}
+                                         spaceWidth={element.spaceWidth}
+                                         spaceHeight={element.spaceHeight}
+                                         shape={element.shape}
+                                         focus={element.focus}
+                                         maxX={element.maxX}
+                                         maxY={element.maxY}
+                                         minX={element.minX}
+                                         minY={element.minY}
+                                         points={element.points}
+                                         overlays={element.overlays}>
+                    {React.createElement(config.element, element)}
+                    {React.createElement(config.area, element)}
+                </ContainerElement>
+            }
+        )
 }
 
 function renderOverlay(shapes: ViewHandler[]) {
     return shapes.map(shape => <g id={shape.id} key={shape.id}>
-        {shape.overlays.map(overlay => <circle cx={shape.position.vx + overlay.position.vx}
-                                               cy={shape.position.vy + overlay.position.vy}
+        {shape.overlays.map(overlay => <circle cx={shape.position.vx + overlay.x}
+                                               cy={shape.position.vy + overlay.y}
                                                r={10}
                                                id={overlay.id}
                                                key={overlay.id}
