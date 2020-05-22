@@ -1,7 +1,6 @@
 import {action, computed, observable} from "mobx";
 import {Data, ViewHandler} from "./Handler";
 import {shapeConfigMap} from "../config";
-import {Unregister} from "./Unregister";
 import {unregisterShapeConfig} from "../config/UnregisterShape";
 
 export type InitData = Data[]
@@ -9,6 +8,7 @@ export type InitData = Data[]
 export interface ProxyType {
     shapes: ViewHandler[];
     initData: (data: InitData) => void;
+    activeElement: ViewHandler | undefined;
 
     setActiveElementId(id: string): void;
 
@@ -19,6 +19,8 @@ export interface ProxyType {
     setHoverElementId(id: string): void;
 
     proxyMoveToActiveElement(x: number, y: number): void;
+
+    proxyMoveToActiveElementPoint(x: number, y: number): void;
 
     proxyMoveByActiveElement(dx: number, dy: number): void;
 
@@ -60,9 +62,23 @@ export class Proxy implements ProxyType {
         return this.shapes.find(shape => shape.id === ViewHandler.activeElementId)
     }
 
+    @computed get activeElementPoint() {
+        return this.activeElement?.points[ViewHandler.activeElementPoint]
+    }
+
+
     @action proxyMoveByActiveElement(dx: number, dy: number) {
         if (this.activeElement) {
             this.activeElement.moveBy(dx, dy);
+        }
+    }
+
+    @action proxyMoveToActiveElementPoint(dx: number, dy: number) {
+        if (this.activeElement && this.activeElementPoint) {
+            this.activeElementPoint.x += dx;
+            this.activeElementPoint.y += dy;
+        } else if (this.activeElement) {
+            this.activeElement.moveBy(dx, dy)
         }
     }
 

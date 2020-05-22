@@ -95,12 +95,16 @@ export function FlowerElement(props: FlowerProps) {
         const id = element.parentElement?.id;
         setDebug(element.toString() + ViewHandler.activeElementPoint || "");
         if (id && moving) {
-            props.proxy.proxyMoveByActiveElement(e.movementX, e.movementY)
+
+            props.proxy.proxyMoveToActiveElementPoint(e.movementX, e.movementY)
+            // props.proxy.proxyMoveByActiveElement(e.movementX, e.movementY)
         }
     };
     const handleMouseUp = (e: React.MouseEvent<SVGSVGElement>) => {
         setMoving(false);
         props.proxy.setActiveElementId("root");
+        props.proxy.setActiveElementPoint(NaN);
+
     };
     return useObserver(() => <>
         <svg width={'100%'}
