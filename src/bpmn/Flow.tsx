@@ -1,6 +1,6 @@
 import React, {FunctionComponent} from "react";
 import {ShapeConfig} from "../flower/config";
-import {Data, ViewHandler} from "../flower/store/Handler";
+import {Connector, Data, ViewHandler} from "../flower/store/Handler";
 import {DEF_ID as MarkerEnd} from "../flower/component/ArrowElement";
 
 const NAME: string = "Flow";
@@ -8,7 +8,17 @@ const NAME: string = "Flow";
 type FlowProps = Data & {}
 type FlowOverlayProps = ViewHandler & {}
 
-class Flow extends ViewHandler {
+class Flow extends ViewHandler implements Connector {
+    sourceRef?: string;
+    targetRef?: string;
+
+    setTargetRef(id: string): void {
+        this.targetRef = id
+    }
+
+    setSourceRef(id: string): void {
+        this.sourceRef = id
+    }
 
 }
 

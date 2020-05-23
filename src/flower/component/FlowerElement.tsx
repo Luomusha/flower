@@ -41,7 +41,7 @@ function renderElement(shapes: ViewHandler[]) {
                                      minX={element.minX}
                                      minY={element.minY}
                                      points={element.points}
-                                     overlays={element.overlays}>
+            >
                 {React.createElement(config.element, element)}
                 {React.createElement(config.area, element)}
             </ContainerElement>
@@ -53,7 +53,7 @@ function renderOverlay(shapes: ViewHandler[]) {
     return shapes.map(shape => <g id={shape.id} key={shape.id}>
         {shape.points.map((p, index) => <circle cx={shape.position.vx + p.x}
                                                 cy={shape.position.vy + p.y}
-                                                r={10}
+                                                r={5}
                                                 key={randomId()}
                                                 data-index={index}
                                                 fillOpacity={0.1}
@@ -77,7 +77,6 @@ export function FlowerElement(props: FlowerProps) {
         const id = element.parentElement?.id;
         if (id) {
             props.proxy.setFocusElementId(id);
-            props.proxy.proxyMoveByActiveElement(10, 0)
         }
     };
     const handleMouseDown = (e: React.MouseEvent<SVGSVGElement>) => {
@@ -94,10 +93,11 @@ export function FlowerElement(props: FlowerProps) {
         const element = e.target as SVGSVGElement;
         const id = element.parentElement?.id;
         setDebug(element.toString() + ViewHandler.activeElementPoint || "");
-        if (id && moving) {
+        if (id && moving && !isNaN(ViewHandler.activeElementPoint)) {
+            props.proxy.proxyMoveActiveElementPointBy(e.movementX, e.movementY)
+        } else if (id && moving) {
+            props.proxy.proxyMoveActiveElementBy(e.movementX, e.movementY)
 
-            props.proxy.proxyMoveToActiveElementPoint(e.movementX, e.movementY)
-            // props.proxy.proxyMoveByActiveElement(e.movementX, e.movementY)
         }
     };
     const handleMouseUp = (e: React.MouseEvent<SVGSVGElement>) => {

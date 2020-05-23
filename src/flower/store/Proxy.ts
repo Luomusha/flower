@@ -18,11 +18,13 @@ export interface ProxyType {
 
     setHoverElementId(id: string): void;
 
-    proxyMoveToActiveElement(x: number, y: number): void;
+    proxyMoveActiveElementTo(x: number, y: number): void;
 
-    proxyMoveToActiveElementPoint(x: number, y: number): void;
+    proxyMoveActiveElementPointTo(x: number, y: number): void;
 
-    proxyMoveByActiveElement(dx: number, dy: number): void;
+    proxyMoveActiveElementBy(dx: number, dy: number): void;
+
+    proxyMoveActiveElementPointBy(dx: number, dy: number): void;
 
     proxyResizeActiveElement(id: string): void;
 
@@ -67,26 +69,27 @@ export class Proxy implements ProxyType {
     }
 
 
-    @action proxyMoveByActiveElement(dx: number, dy: number) {
+    proxyMoveActiveElementBy(dx: number, dy: number) {
         if (this.activeElement) {
             this.activeElement.moveBy(dx, dy);
         }
     }
 
-    @action proxyMoveToActiveElementPoint(dx: number, dy: number) {
+    proxyMoveActiveElementPointBy(dx: number, dy: number) {
         if (this.activeElement && this.activeElementPoint) {
-            this.activeElementPoint.x += dx;
-            this.activeElementPoint.y += dy;
-        } else if (this.activeElement) {
-            this.activeElement.moveBy(dx, dy)
+            this.activeElement.updateActivePointBy(dx, dy)
         }
     }
 
-    @action proxyMoveToActiveElement(x: number, y: number) {
+    proxyMoveActiveElementTo(x: number, y: number) {
 
     }
 
-    @action proxyResizeActiveElement(id: string) {
+    proxyMoveActiveElementPointTo(x: number, y: number) {
+
+    }
+
+    proxyResizeActiveElement(id: string) {
 
     }
 
