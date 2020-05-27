@@ -17,12 +17,12 @@ type FlowerProps = {
     proxy: Proxy
 }
 
+type MODE = "DEFAULT" | "MOVE" | "RESIZE" | "LINK"
 
 function renderDefs() {
     return <defs>
         <ArrowElement/>
     </defs>
-
 }
 
 
@@ -69,8 +69,9 @@ function renderOverlay(shapes: ViewHandler[]) {
 
 export function FlowerElement(props: FlowerProps) {
 
+    const [mode, setMode] = useState("DEFAULT");
     const [moving, setMoving] = useState(false);
-    const [debug, setDebug] = useState("")
+    const [debug, setDebug] = useState("");
 
     const handleClick = (e: React.MouseEvent<SVGSVGElement>) => {
         const element = e.target as SVGSVGElement;

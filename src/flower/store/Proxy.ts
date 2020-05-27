@@ -5,6 +5,8 @@ import {unregisterShapeConfig} from "../config/UnregisterShape";
 
 export type InitData = Data[]
 
+
+
 export interface ProxyType {
     shapes: ViewHandler[];
     initData: (data: InitData) => void;
