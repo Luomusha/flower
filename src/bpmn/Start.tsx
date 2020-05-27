@@ -10,10 +10,6 @@ type StartType = Data & {}
 type StartProps = Data & {}
 
 class Start extends ViewHandler {
-    constructor(props: StartType) {
-        super(props);
-        this.points.push({x: R * 2, y: R * 2})
-    }
 }
 
 const StartElement: FunctionComponent<StartProps> = ({x = 18, y = 18}) => {

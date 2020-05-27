@@ -8,14 +8,13 @@ type TaskType = Data & {}
 type TaskProps = Data & {}
 
 class Task extends ViewHandler {
-    constructor(task: TaskType) {
-        super(task);
-        this.points.push({x: 100, y: 80})
-    }
+
 }
 
 const TaskElement: FunctionComponent<TaskProps> = () => {
-    return <rect height={80}
+    return <rect x={0}
+                 y={0}
+                 height={80}
                  width={100}
                  rx={10}
                  ry={10}

@@ -10,10 +10,6 @@ type EndType = Data & {}
 type EndProps = Data & {}
 
 class End extends ViewHandler {
-    constructor(props: EndType) {
-        super(props);
-        this.points.push({x: R * 2, y: R * 2})
-    }
 }
 
 const EndElement: FunctionComponent<EndProps> = ({x = 18, y = 18}) => {

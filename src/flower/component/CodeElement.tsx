@@ -1,6 +1,7 @@
 import React, {FunctionComponent} from "react";
 import {randomId} from "../util";
 import {ViewHandler} from "../store/Handler";
+import {useObserver} from "mobx-react";
 
 export type CodeProps = {
     shapes: any[],
@@ -8,7 +9,7 @@ export type CodeProps = {
 }
 
 export const CodeElement: FunctionComponent<CodeProps> = ({shapes, message}) => {
-    return <g>
+    return useObserver(() => <g>
         <text y={300}
               x={200}
               stroke={'darkgreen'}
@@ -36,5 +37,5 @@ export const CodeElement: FunctionComponent<CodeProps> = ({shapes, message}) => 
             </text>
         )}
 
-    </g>
+    </g>)
 }

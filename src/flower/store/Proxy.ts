@@ -1,7 +1,6 @@
 import {action, computed, observable} from "mobx";
 import {Data, ViewHandler} from "./Handler";
 import {shapeConfigMap} from "../config";
-import {Unregister} from "./Unregister";
 import {unregisterShapeConfig} from "../config/UnregisterShape";
 
 export type InitData = Data[]
@@ -9,18 +8,23 @@ export type InitData = Data[]
 export interface ProxyType {
     shapes: ViewHandler[];
     initData: (data: InitData) => void;
+    activeElement: ViewHandler | undefined;
 
     setActiveElementId(id: string): void;
 
-    setActiveOverlayId(id: string): void;
+    setActiveElementPoint(id: number): void;
 
     setFocusElementId(id: string): void;
 
     setHoverElementId(id: string): void;
 
-    proxyMoveToActiveElement(x: number, y: number): void;
+    proxyMoveActiveElementTo(x: number, y: number): void;
 
-    proxyMoveByActiveElement(dx: number, dy: number): void;
+    proxyMoveActiveElementPointTo(x: number, y: number): void;
+
+    proxyMoveActiveElementBy(dx: number, dy: number): void;
+
+    proxyMoveActiveElementPointBy(dx: number, dy: number): void;
 
     proxyResizeActiveElement(id: string): void;
 
@@ -43,8 +47,8 @@ export class Proxy implements ProxyType {
         ViewHandler.activeElementId = id;
     }
 
-    @action setActiveOverlayId(id: string): void {
-        ViewHandler.activeOverlayId = id;
+    @action setActiveElementPoint(id: number): void {
+        ViewHandler.activeElementPoint = id;
     }
 
 
@@ -60,17 +64,32 @@ export class Proxy implements ProxyType {
         return this.shapes.find(shape => shape.id === ViewHandler.activeElementId)
     }
 
-    @action proxyMoveByActiveElement(dx: number, dy: number) {
+    @computed get activeElementPoint() {
+        return this.activeElement?.points[ViewHandler.activeElementPoint]
+    }
+
+
+    proxyMoveActiveElementBy(dx: number, dy: number) {
         if (this.activeElement) {
             this.activeElement.moveBy(dx, dy);
         }
     }
 
-    @action proxyMoveToActiveElement(x: number, y: number) {
+    proxyMoveActiveElementPointBy(dx: number, dy: number) {
+        if (this.activeElement && this.activeElementPoint) {
+            this.activeElement.updateActivePointBy(dx, dy)
+        }
+    }
+
+    proxyMoveActiveElementTo(x: number, y: number) {
 
     }
 
-    @action proxyResizeActiveElement(id: string) {
+    proxyMoveActiveElementPointTo(x: number, y: number) {
+
+    }
+
+    proxyResizeActiveElement(id: string) {
 
     }
 
