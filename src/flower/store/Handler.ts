@@ -18,6 +18,8 @@ interface Movable {
 
 interface Resizable {
     points: Point[];
+    firstPoint: Point;
+    lastPoint: Point;
 
     updateActivePointTo(x: number, y: number): void;
 
@@ -72,7 +74,6 @@ export class ViewHandler implements ViewProps, Movable, Resizable {
         this.position = {vx: data.x, vy: data.y};
     }
 
-    overlays: ViewHandler[] = [];
     @observable static activeElementId: string;
     @observable static activeElementPoint: number;
     @observable static focusElementId: string;
@@ -82,6 +83,15 @@ export class ViewHandler implements ViewProps, Movable, Resizable {
     @observable position: Vector;
     @observable points: Point[];
     @observable shape: string;
+
+
+    @computed get firstPoint(): Point {
+        return this.points[0]
+    };
+
+    @computed get lastPoint(): Point {
+        return this.points[this.points.length - 1]
+    };
 
     @computed get maxX(): number {
         const maxXPoint = this.points.reduce((p, c) => p.x > c.x ? p : c);
@@ -130,7 +140,7 @@ export class ViewHandler implements ViewProps, Movable, Resizable {
     }
 
     @action updateActivePointBy(dx: number, dy: number): void {
-        const point = this.points[ViewHandler.activeElementPoint]
+        const point = this.points[ViewHandler.activeElementPoint];
         point.x += dx;
         point.y += dy;
     }
