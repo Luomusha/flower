@@ -25,7 +25,6 @@ function renderDefs() {
     </defs>
 }
 
-
 function renderElement(shapes: ViewHandler[]) {
     return shapes.map(element => {
             const config = shapeConfigMap.get(element.shape) || unregisterShapeConfig;
@@ -66,11 +65,9 @@ function renderOverlay(shapes: ViewHandler[]) {
 
 }
 
-
 export function FlowerElement(props: FlowerProps) {
 
-    const [mode, setMode] = useState("DEFAULT");
-    const [moving, setMoving] = useState(false);
+    const [mode, setMode] = useState<MODE>("DEFAULT");
     const [debug, setDebug] = useState("");
 
     const handleClick = (e: React.MouseEvent<SVGSVGElement>) => {
@@ -82,30 +79,32 @@ export function FlowerElement(props: FlowerProps) {
     };
     const handleMouseDown = (e: React.MouseEvent<SVGSVGElement>) => {
         const element = e.target as SVGSVGElement;
-        const id = element.parentElement?.id;
+        const id = element.parentElement?.id || "root";
         const pointIndex: number = parseInt(element.dataset['index'] || "NaN", 10);
-        if (id) {
-            setMoving(true);
-            props.proxy.setActiveElementId(id);
-            props.proxy.setActiveElementPoint(pointIndex);
+        if (!isNaN(pointIndex)) {
+            setMode("RESIZE")
+        } else if (id) {
+            setMode("MOVE")
         }
+        props.proxy.setActiveElementId(id);
+        props.proxy.setActiveElementPoint(pointIndex);
     };
     const handleMouseMove = (e: React.MouseEvent<SVGSVGElement>) => {
         const element = e.target as SVGSVGElement;
         const id = element.parentElement?.id;
-        setDebug(element.toString() + ViewHandler.activeElementPoint || "");
-        if (id && moving && !isNaN(ViewHandler.activeElementPoint)) {
+        setDebug("activeElementPointIndex:" + ViewHandler.activeElementPoint || "");
+        if (mode === "RESIZE") {
             props.proxy.proxyMoveActiveElementPointBy(e.movementX, e.movementY)
-        } else if (id && moving) {
+        } else if (mode === "MOVE") {
             props.proxy.proxyMoveActiveElementBy(e.movementX, e.movementY)
 
         }
     };
     const handleMouseUp = (e: React.MouseEvent<SVGSVGElement>) => {
-        setMoving(false);
         props.proxy.setActiveElementId("root");
         props.proxy.setActiveElementPoint(NaN);
 
+        setMode("DEFAULT")
     };
     return useObserver(() => <>
         <svg width={'100%'}
@@ -116,7 +115,7 @@ export function FlowerElement(props: FlowerProps) {
              onMouseUp={handleMouseUp}
         >
             {renderDefs()}
-            <g className={"debug"}><CodeElement shapes={props.proxy.shapes} message={debug}/></g>
+            <g className={"debug"}><CodeElement shapes={props.proxy.shapes} message={debug + "     " + mode}/></g>
             <g className={"flow"}>{renderElement(props.proxy.shapes)}</g>
             <g className={"overlay"}>{renderOverlay(props.proxy.shapes)}</g>
         </svg>

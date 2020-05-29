@@ -21,3 +21,11 @@
     color: darkgreen;
     word-break: break-all;
 }
+
+.overlay g{
+    display: none;
+}
+
+.overlay g:hover{
+    display: block;
+}
